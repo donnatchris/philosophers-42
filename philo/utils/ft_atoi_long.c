@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_long.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/02 18:42:17 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/18 17:11:09 by chdonnat         ###   ########.fr       */
+/*   Created: 2025/01/25 07:55:31 by christophed       #+#    #+#             */
+/*   Updated: 2025/01/25 07:55:37 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/fdf.h"
+#include "../include/philo.h"
 
 // Function to convert a string to a long integer
 long	ft_atoi_long(const char *nptr)

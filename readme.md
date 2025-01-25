@@ -98,3 +98,141 @@ This structure is commonly used with functions like gettimeofday to retrieve the
 It provides a simple way to represent high-resolution timestamps,
 but for some applications, alternative structures or functions may offer more features or higher precision.
 
+---
+
+### pthread_create()
+#include <pthread.h>
+
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
+
+pthread_create() is used to create a new thread in a program.
+It allows the execution of a function concurrently with the main thread.
+The function takes four arguments:
+- a pointer to a pthread_t variable, where the thread ID will be stored
+- an optional pointer to a pthread_attr_t structure to specify thread attributes, or NULL for default attributes
+- a pointer to the function that the thread will execute
+- a pointer to the argument that will be passed to the function.
+
+The function returns 0 on success and a positive error code on failure.
+
+### pthread_attr_t structure
+The pthread_attr_t structure is used to specify attributes for a thread when creating it with pthread_create().
+It allows you to customize various aspects of the thread's behavior, such as
+its stack size, scheduling policy, and whether it is joinable or detached.
+By default, if pthread_attr_t is set to NULL in pthread_create, the thread will be created with the system's default attributes.
+The attributes that can be set using this structure include:
+- Stack size: The amount of memory allocated for the thread’s stack
+- Scheduling policy: Defines how the thread is scheduled by the system (e.g., SCHED_FIFO, SCHED_RR, or SCHED_OTHER)
+- Scheduling priority: A priority value that can affect the scheduling of the thread
+- Detached or joinable: Whether the thread is joinable (can be waited on by other threads) or detached (resources are automatically freed when it finishes)
+- Scope of the thread: Determines whether the thread's execution is bound to a processor (for systems with processor affinity)
+
+To set these attributes, the pthread_attr_t structure must be initialized using pthread_attr_init() and can be modified using other functions like pthread_attr_setstacksize(), pthread_attr_setschedpolicy(), etc. Once the thread is created, the attributes are not used again, and modifying them after creation does not affect the already created thread.
+
+---
+
+### pthread_detach()
+#include <pthread.h>
+
+int pthread_detach(pthread_t thread);
+
+pthread_detach() is used to detach a thread, meaning it will run independently and its resources will be automatically released once it finishes execution.
+This function prevents the need for another thread to call pthread_join() to clean up the detached thread.
+It is typically used when you do not need to wait for a thread to finish or retrieve its result.
+The argument is the thread identifier (pthread_t) of the thread to be detached.
+The function returns 0 on success and a positive error code on failure.
+
+---
+
+### pthread_join()
+#include <pthread.h>
+
+int pthread_join(pthread_t thread, void **retval);
+
+pthread_join() is used to make the calling thread wait for a specified thread to finish execution.
+It allows the caller to optionally retrieve the return value of the joined thread.
+The arguments are
+- the thread identifier (pthread_t) of the thread to wait for
+- a pointer to a variable where the return value of the thread can be stored (or NULL if not needed).
+The function returns 0 on success and a positive error code on failure, such as if the thread is already detached or invalid.
+
+---
+
+### mutex
+A mutex (short for "mutual exclusion") is a synchronization primitive used to prevent multiple threads from accessing shared resources simultaneously,
+which could lead to data corruption or inconsistency.
+It ensures that only one thread can enter a critical section of code at a time,
+while other threads that try to access the same section are blocked until the mutex is released.
+
+The basic operation of a mutex involves two main functions:
+- Locking (pthread_mutex_lock):
+A thread must lock the mutex before entering the critical section.
+If the mutex is already locked by another thread, the requesting thread will be blocked until the mutex becomes available.
+- Unlocking (pthread_mutex_unlock):
+After the thread finishes its work in the critical section, it must unlock the mutex, allowing other threads to access the resource.
+
+In addition to these basic operations, there are other features, such as trylock (which allows a thread to attempt locking a mutex without blocking) and deadlock prevention (by ensuring that mutexes are unlocked properly).
+
+Mutexes are often used to protect shared data structures or resources in multithreading programs to maintain data integrity. However, improper use of mutexes can lead to issues like deadlocks, where two or more threads are waiting for each other to release a mutex, causing the program to freeze.
+
+---
+
+### pthread_mutex_init()
+#include <pthread.h>
+
+int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+
+pthread_mutex_init() is used to initialize a mutex.
+The function takes two arguments:
+- a pointer to a pthread_mutex_t variable, which will hold the initialized mutex
+- an optional pointer to a pthread_mutexattr_t structure to define custom attributes for the mutex (or NULL for default attributes)
+The function returns 0 on success and a positive error code on failure.
+
+---
+
+### pthread_mutexattr_t structure
+The pthread_mutexattr_t structure is used to define the attributes of a mutex in POSIX threading.
+It allows customization of mutex behavior, such as setting its type (e.g., normal, recursive, or error-checking) or defining its process-shared behavior.
+The structure is opaque, meaning its internal variables are not directly accessible by programmers, and it is managed by the POSIX library implementation.
+However, the attributes can be modified through specific functions such as pthread_mutexattr_settype() and are used to define the behavior of the mutex.
+The main attributes include the mutex type
+(e.g., PTHREAD_MUTEX_NORMAL, PTHREAD_MUTEX_RECURSIVE, PTHREAD_MUTEX_ERRORCHECK, and PTHREAD_MUTEX_DEFAULT)
+and process-sharing options
+(PTHREAD_PROCESS_PRIVATE for use within the same process and PTHREAD_PROCESS_SHARED for sharing between processes).
+These attributes are configured using functions like pthread_mutexattr_init(), pthread_mutexattr_settype(), and pthread_mutexattr_setpshared().
+Although the structure itself cannot be directly examined, its attributes can be modified using the available API functions.
+The structure is typically initialized using pthread_mutexattr_init() and can be modified with functions like pthread_mutexattr_settype().
+
+---
+
+### pthread_mutex_destroy()
+#include <pthread.h>
+
+int pthread_mutex_destroy(pthread_mutex_t *mutex);
+
+pthread_mutex_destroy() is used to destroy a previously initialized mutex.
+After a mutex is destroyed, it can no longer be used, and its resources are released.
+The function takes a pointer to a pthread_mutex_t variable that identifies the mutex to be destroyed.
+It is important to ensure that no thread is holding the mutex when calling pthread_mutex_destroy, as this could result in undefined behavior.
+The function returns 0 on success and a positive error code on failure.
+
+---
+
+### pthread_mutex_lock()
+#include <pthread.h>
+
+int pthread_mutex_lock(pthread_mutex_t *mutex);
+
+pthread_mutex_lock() is used to lock a mutex, ensuring that only one thread can access a critical section at a time.
+If the mutex is already locked by another thread, the calling thread will be blocked until the mutex becomes available.
+The function takes a pointer to a pthread_mutex_t variable, which represents the mutex to be locked.
+The function returns 0 on success and a positive error code on failure, such as when the mutex is invalid or already locked.
+
+---
+
+### pthread_mutex_unlock()
+#include <pthread.h>
+
+int pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+pthread_mutex_unlock is used to unlock a previously locked mutex, allowing other threads to access the critical section that was protected by the mutex. The function takes a pointer to a pthread_mutex_t variable, which represents the mutex to be unlocked. It is important that the thread calling this function has previously locked the mutex. The function returns 0 on success and a positive error code on failure, such as when the mutex is not locked by the calling thread.
