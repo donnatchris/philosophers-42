@@ -6,7 +6,7 @@
 #    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/01/25 20:17:20 by christophed      ###   ########.fr        #
+#    Updated: 2025/01/25 22:38:04 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC = \
 	$(SRC_DIR)/error_manager.c \
 	$(SRC_DIR)/store_rules.c \
 	$(SRC_DIR)/store_philosophers.c \
+	$(SRC_DIR)/run.c \
 	$(UTILS_DIR)/dclst1.c \
 	$(UTILS_DIR)/dclst2.c \
 	$(UTILS_DIR)/dclst3.c \

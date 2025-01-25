@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:55:03 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 20:45:44 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/25 23:14:16 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 	if (!agora)
 		error("Malloc failed", NULL);
 	store_philosophers(agora, rules.nb_philo);
-	error("End of program", agora);
+	free_and_exit(agora, 0);
 	return (0);
 }
 
