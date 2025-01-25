@@ -27,6 +27,8 @@ Specific rules for the mandatory part include that each philosopher should be a 
 
 NOTE THAT THE LIBFT IS FORBIDEN!
 
+ALSO NOTE THAT philo AND philo_bonuS EACH HAVE THEIR OWN MAKEFILE IN THEIR OWN DIRECTORY
+
 ### BONUS PART:
 
 The program for the bonus part takes the same arguments as the mandatory program
