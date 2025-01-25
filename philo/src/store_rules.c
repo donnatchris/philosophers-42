@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 12:03:23 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/25 18:50:37 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	store_input(t_rules *rules, int ac, char **av)
 	long	nb_must_eat;
 
 	if (ac != 5 && ac != 6)
-		error("Invalid number of arguments");
+		error("Invalid number of arguments", NULL);
 	nb_philo = ft_atoi_long(av[1]);
 	time_to_die = ft_atoi_long(av[2]);
 	time_to_eat = ft_atoi_long(av[3]);
@@ -43,7 +43,7 @@ void	store_input(t_rules *rules, int ac, char **av)
 void	control_and_store(long n, int *rule)
 {
 	if (!is_positive_int(n))
-		error("Invalid input");
+		error("Invalid input", NULL);
 	*rule = (int) n;
 }
 
@@ -51,7 +51,7 @@ void	control_and_store(long n, int *rule)
 void	control_rules(long n)
 {
 	if (!is_positive_int(n))
-		error("Invalid input");
+		error("Invalid input", NULL);
 }
 
 // Function to see if the number is a positive integer
