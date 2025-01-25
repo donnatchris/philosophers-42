@@ -78,7 +78,7 @@ https://github.com/donnatchris/minitalk
 ---
 
 ### gettimeofday()
-#include <sys/time.h>
+> #include <sys/time.h>
 
 > int gettimeofday(struct timeval *tv, struct timezone *tz);
 
