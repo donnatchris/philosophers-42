@@ -137,9 +137,9 @@ To set these attributes, the pthread_attr_t structure must be initialized using 
 ---
 
 ### pthread_detach()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_detach(pthread_t thread);
+	int pthread_detach(pthread_t thread);
 
 pthread_detach() is used to detach a thread, meaning it will run independently and its resources will be automatically released once it finishes execution.
 This function prevents the need for another thread to call pthread_join() to clean up the detached thread.
