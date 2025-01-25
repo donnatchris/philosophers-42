@@ -80,10 +80,11 @@ https://github.com/donnatchris/minitalk
 ### gettimeofday()
 #include <sys/time.h>
 
-int gettimeofday(struct timeval *tv, struct timezone *tz);
+> int gettimeofday(struct timeval *tv, struct timezone *tz);
 
 The gettimeofday function retrieves the current time since the UNIX epoch (January 1, 1970, 00:00:00 UTC) with microsecond precision.
-#### Arguments:
+
+Arguments:
 - a pointer to a struct timeval, where seconds (tv_sec) and microseconds (tv_usec) are stored
 - an optional struct timezone parameter, which is usually set to NULL as it is obsolete
 
