@@ -45,6 +45,10 @@ execute the program (you must pass 4 or 5 arguments)
 
 	./philo <number_of_philosophers> <time_to_die in milliseconds> <time_to_eat in milliseconds> <time_to_sleep in milliseconds> <optional: number_of_times_each_philosopher_must_eat>
 
+ for example: execute the program with 5 philosophers, 500 ms to die, 500 ms to eat, 500 ms to eat, 500 ms to sleep
+
+	./philo 500 500 500 500
+
 ## ARCHITECTURE:
 
 - philo/ directory with files for the mandatory part
