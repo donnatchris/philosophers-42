@@ -95,7 +95,7 @@ It is commonly used to measure elapsed time or add precise timestamps to logs.
 While it provides microsecond precision, the actual accuracy depends on the system.
 For higher precision or monotonic timing, clock_gettime is a better alternative.
 
-### Timeval structure
+### timeval structure
 The timeval structure is used to represent a specific point in time with precision up to microseconds.
 It contains two fields:
 - tv_sec, which stores the number of seconds since the UNIX epoch (January 1, 1970)
