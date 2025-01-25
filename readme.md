@@ -78,9 +78,9 @@ https://github.com/donnatchris/minitalk
 ---
 
 ### gettimeofday()
-#include <sys/time.h>
+> #include <sys/time.h>
 
-> int gettimeofday(struct timeval *tv, struct timezone *tz);
+	int gettimeofday(struct timeval *tv, struct timezone *tz);
 
 The gettimeofday function retrieves the current time since the UNIX epoch (January 1, 1970, 00:00:00 UTC) with microsecond precision.
 
@@ -106,9 +106,9 @@ but for some applications, alternative structures or functions may offer more fe
 ---
 
 ### pthread_create()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
+	int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine)(void *), void *arg);
 
 pthread_create() is used to create a new thread in a program.
 It allows the execution of a function concurrently with the main thread.
@@ -150,9 +150,9 @@ The function returns 0 on success and a positive error code on failure.
 ---
 
 ### pthread_join()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_join(pthread_t thread, void **retval);
+	int pthread_join(pthread_t thread, void **retval);
 
 pthread_join() is used to make the calling thread wait for a specified thread to finish execution.
 It allows the caller to optionally retrieve the return value of the joined thread.
@@ -183,9 +183,9 @@ Mutexes are often used to protect shared data structures or resources in multith
 ---
 
 ### pthread_mutex_init()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
+	int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr);
 
 pthread_mutex_init() is used to initialize a mutex.
 The function takes two arguments:
@@ -211,9 +211,9 @@ The structure is typically initialized using pthread_mutexattr_init() and can be
 ---
 
 ### pthread_mutex_destroy()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_mutex_destroy(pthread_mutex_t *mutex);
+	int pthread_mutex_destroy(pthread_mutex_t *mutex);
 
 pthread_mutex_destroy() is used to destroy a previously initialized mutex.
 After a mutex is destroyed, it can no longer be used, and its resources are released.
@@ -224,9 +224,9 @@ The function returns 0 on success and a positive error code on failure.
 ---
 
 ### pthread_mutex_lock()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_mutex_lock(pthread_mutex_t *mutex);
+	int pthread_mutex_lock(pthread_mutex_t *mutex);
 
 pthread_mutex_lock() is used to lock a mutex, ensuring that only one thread can access a critical section at a time.
 If the mutex is already locked by another thread, the calling thread will be blocked until the mutex becomes available.
@@ -236,8 +236,8 @@ The function returns 0 on success and a positive error code on failure, such as 
 ---
 
 ### pthread_mutex_unlock()
-#include <pthread.h>
+> #include <pthread.h>
 
-> int pthread_mutex_unlock(pthread_mutex_t *mutex);
+	int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 pthread_mutex_unlock is used to unlock a previously locked mutex, allowing other threads to access the critical section that was protected by the mutex. The function takes a pointer to a pthread_mutex_t variable, which represents the mutex to be unlocked. It is important that the thread calling this function has previously locked the mutex. The function returns 0 on success and a positive error code on failure, such as when the mutex is not locked by the calling thread.
