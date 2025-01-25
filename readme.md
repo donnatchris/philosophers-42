@@ -39,7 +39,7 @@ Each philosopher should be implemented as a process, but the main process should
 
 compile the program:
 
-	make
+	make & make clean
 
 execute the program (you must pass 4 or 5 arguments)
 
