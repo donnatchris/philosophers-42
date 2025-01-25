@@ -41,9 +41,9 @@ compile the program:
 
 	make
 
-execute the program (you must pass a file containing coordonates)
+execute the program (you must pass 4 or 5 arguments)
 
-	./fdf <file>
+	./philo <number_of_philosophers> <time_to_die in milliseconds> <time_to_eat in milliseconds> <time_to_sleep in milliseconds> <optional: number_of_times_each_philosopher_must_eat>
 
 ## ARCHITECTURE:
 
