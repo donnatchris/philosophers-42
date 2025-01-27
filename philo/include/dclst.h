@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dclst.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:13:11 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 18:49:54 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/27 13:50:16 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dclst1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 08:58:54 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 18:49:58 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/27 14:09:15 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,5 @@ void	dclst_clear(t_dclst **head)
 		return ;
 	while (*head)
 		dclst_remove_node(head, *head);
+	free(head);
 }

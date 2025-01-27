@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
+#    By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/01/25 22:38:04 by christophed      ###   ########.fr        #
+#    Updated: 2025/01/27 14:45:38 by chdonnat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,11 @@ MAIN = $(SRC_DIR)/main.c
 
 # Sources files for mandatory part
 SRC = \
-	$(SRC_DIR)/error_manager.c \
+	$(SRC_DIR)/close_program.c \
 	$(SRC_DIR)/store_rules.c \
 	$(SRC_DIR)/store_philosophers.c \
 	$(SRC_DIR)/run.c \
+	$(SRC_DIR)/survey.c \
 	$(UTILS_DIR)/dclst1.c \
 	$(UTILS_DIR)/dclst2.c \
 	$(UTILS_DIR)/dclst3.c \
@@ -39,7 +40,7 @@ SRC = \
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Compilation options for MacOS or Linux
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 # Compiler
 CC = gcc

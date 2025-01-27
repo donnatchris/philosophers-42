@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   store_philosophers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:17:00 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 22:29:32 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/27 14:24:22 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_philo	*create_philosopher(t_dclst **agora, int id, t_timeval time)
 	if (pthread_mutex_init(&philo->mutex, NULL))
 		error("Mutex init failed", agora);
 	philo->status = THINKING;
-	philo->left_fork = id;
-	philo->right_fork = (id + 1) % 5;
+	philo->own_fork = 1;
+	philo->next_fork = 0;
 	philo->birth = time;
 	philo->last_meal = time;
 	return (philo);

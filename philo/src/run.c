@@ -3,49 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 23:35:46 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/27 15:57:17 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 // Function to run the simulation
-void	run_simulation(t_dclst **agora, t_rules rules)
+void	run_simulation(t_dclst **agora, t_rules rules, int n_threads)
 {
-	(void)agora;
-	(void)rules;
+	int			res;
+	int			i;
+	pthread_t	threads[n_threads];
+
+	res = pthreads_create(&threads[0], NULL, survey_dead, agora);
+	if (res)
+		free_and_exit(agora, res);
+	if (rules.nb_must_eat != -1)
+	{
+		res = pthreads_create(&threads[n_threads - 1], NULL, survey_win, agora);
+		if (res)
+			free_and_exit(agora, res);
+	}
+	while(i < rules.nb_philo)
+	{
+		res = 
+	}
+	philosopher_life(agora, (*agora)->data, rules);
 }
 
-// Function to survey the philosophers
-void	survey(t_dclst **agora, t_rules rules)
+void	philosopher_life(t_dclst **agora, t_philo *philo, t_rules rules)
 {
-	t_dclst	*current;
-	t_philo	*philo;
-	int		i;
+	int	i;
 
-	current = *agora;
 	i = 0;
-	while (i < rules.nb_philo)
+	while (i < 20)
 	{
-		philo = current->data;
-		if (philo->status == DEAD)
-			write_log(agora, philo, DEAD);
-		if (get_elapsed_time(philo->last_meal) > rules.time_to_die)
-			write_log(agora, philo, DEAD);
-		current = current->next;
+		philo->status = THINKING;
+		write_log(agora, philo, philo->status);
+		philo->status = EATING;
+		write_log(agora, philo, philo->status);
+		usleep(rules.time_to_eat * 1000);
+		philo->status = SLEEPING;
+		write_log(agora, philo, philo->status);
+		usleep(rules.time_to_sleep * 1000);
 		i++;
-		// need to add a rule to see if all philosophers have eaten enough
 	}
 }
 
 // Function to write logs
 void	write_log(t_dclst **agora, t_philo *philo, int status)
 {
-	// manque "has tah$ken a fork"
 	pthread_mutex_lock(&philo->mutex);
+	if (status == FORK)
+		printf("%lld %d has taken a fork\n", get_elapsed_time(philo->birth), philo->id);
 	if (status == EATING)
 		printf("%lld %d is eating\n", get_elapsed_time(philo->birth), philo->id);
 	else if (status == SLEEPING)
