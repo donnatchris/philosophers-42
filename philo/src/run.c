@@ -6,7 +6,7 @@
 /*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/27 15:57:17 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:30:59 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,32 @@ void	run_simulation(t_dclst **agora, t_rules rules, int n_threads)
 {
 	int			res;
 	int			i;
-	pthread_t	threads[n_threads];
+	pthread_t	*threads;
+	t_dclst		*current;
 
-	res = pthreads_create(&threads[0], NULL, survey_dead, agora);
+// prevoir de free threads!
+	threads = (pthread_t *)malloc(sizeof(pthread_t) * n_threads);
+	if (!threads)
+		free_and_exit(agora, 1);
+	res = pthread_create(&threads[0], NULL, survey_dead, (void *)agora);
 	if (res)
 		free_and_exit(agora, res);
 	if (rules.nb_must_eat != -1)
 	{
-		res = pthreads_create(&threads[n_threads - 1], NULL, survey_win, agora);
+		res = pthread_create(&threads[n_threads - 1], NULL, survey_win, (void *)agora);
 		if (res)
 			free_and_exit(agora, res);
 	}
-	while(i < rules.nb_philo)
+	current = *agora;
+	i = 1;
+	while(i <= rules.nb_philo)
 	{
-		res = 
+		res = pthread_create(&threads[i], NULL, philosopher_life, (void *)current);
+		if (res)
+			free_and_exit(agora, res);
+		current = current->next;
+		i++;
 	}
-	philosopher_life(agora, (*agora)->data, rules);
 }
 
 void	philosopher_life(t_dclst **agora, t_philo *philo, t_rules rules)
