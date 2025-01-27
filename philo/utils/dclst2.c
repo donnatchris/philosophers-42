@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 08:59:05 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/25 18:50:01 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/28 00:33:18 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,21 @@ t_dclst	*dclst_find_node_with_pos(t_dclst *head, int position)
 	}
 	return (current);
 }
+
+// Function to free multiple pointers
+// void	multiple_free(int count, ...)
+// {
+// 	va_list	args;
+// 	void	*ptr;
+// 	int		i;
+
+// 	va_start(args, count);
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		ptr = va_arg(args, void *);
+// 		free(ptr);
+// 		i++;
+// 	}
+// 	va_end(args);
+// }

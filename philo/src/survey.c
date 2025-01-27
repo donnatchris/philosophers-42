@@ -3,73 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   survey.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:39:36 by chdonnat          #+#    #+#             */
-/*   Updated: 2025/01/27 15:28:59 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:46:29 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 // Function to survey if a philosopher is dead
-void	survey_dead(t_dclst **agora, t_rules rules)
+void	*survey_dead(void *arg)
 {
-	t_dclst	*current;
-	t_philo	*philo;
+	t_dclst		**agora;
+	t_dclst		*current;
+	t_philo		*philo;
+	int			time;
 
+	agora = (t_dclst **) arg;
 	current = *agora;
-	philo = current->data;
-	while (1)
+	philo = (t_philo *) current->data;
+	time = philo->rules->time_to_die;
+	while (philo->rules->run_threads)
 	{
-		if (get_elapsed_time(philo->last_meal) > rules.time_to_die)
+		if (get_elapsed_time(philo->last_meal) > time)
         {
-			write_log(agora, philo, DEAD);
-			free_and_exit(agora, 0);
+			bad_end(philo->id, agora);
+			return (NULL);
         }
 		current = current->next;
-		philo = current->data;
+		philo = (t_philo *) current->data;
 	}
+	return (NULL);
 }
 
 // Function to survey if all philosophers have eaten enough
-void	survey_win(t_dclst **agora, t_rules rules)
+void	*survey_win(void *arg)
 {
+	t_dclst		**agora;
 	t_dclst	*current;
 	t_philo	*philo;
 
+	agora = (t_dclst **) arg;
 	current = *agora;
-	philo = current->data;
-	while (1)
+    while (((t_philo *) current->data)->rules->run_threads)
 	{
-		if (philo->n_meals >= rules.nb_must_eat)
-			if (have_won(current, rules))
+		philo = (t_philo *) current->data;
+		if (philo->n_meals >= philo->rules->nb_must_eat)
+			if (have_won(current, philo->rules))
 			{
-				printf("All philosophers have eaten enough!\n");
-				free_and_exit(agora, 0);
+				happy_end(agora);
+				return (NULL);
 			}
 		current = current->next;
-		philo = current->data;
 	}
+	return (NULL);
 }
 
 // Function to check if other philosophers have eaten enough
-int	have_won(t_dclst *current, t_rules rules)
+int	have_won(t_dclst *current, t_rules *rules)
 {
 	t_philo	*philo;
 	int		i;
 
-	philo = current->data;
 	i = 0;
-	while(i < rules.nb_must_eat)
+	while(i < rules->nb_philo)
 	{
-		if (philo->n_meals < rules.nb_must_eat)
-			break ;
+		philo = (t_philo *) current->data;
+		if (philo->n_meals < rules->nb_must_eat)
+			return (0);
 		i++;
 		current = current->next;
-		philo = current->data;
 	}
-	if (i < rules.nb_philo)
-		return (0);
 	return (1);
 }

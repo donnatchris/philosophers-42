@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+         #
+#    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/01/27 14:45:38 by chdonnat         ###   ########.fr        #
+#    Updated: 2025/01/28 00:33:38 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,11 +28,9 @@ SRC = \
 	$(SRC_DIR)/store_rules.c \
 	$(SRC_DIR)/store_philosophers.c \
 	$(SRC_DIR)/run.c \
+	$(SRC_DIR)/philosopher_life.c \
 	$(SRC_DIR)/survey.c \
 	$(UTILS_DIR)/dclst1.c \
-	$(UTILS_DIR)/dclst2.c \
-	$(UTILS_DIR)/dclst3.c \
-	$(UTILS_DIR)/free_functions.c \
 	$(UTILS_DIR)/utils_functions.c \
 	$(MAIN)
 
