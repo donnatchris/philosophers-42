@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   survey.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:39:36 by chdonnat          #+#    #+#             */
-/*   Updated: 2025/01/28 00:46:29 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 10:21:59 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*survey_dead(void *arg)
 	{
 		if (get_elapsed_time(philo->last_meal) > time)
         {
-			bad_end(philo->id, agora);
+			bad_end(philo);
 			return (NULL);
         }
 		current = current->next;
@@ -52,7 +52,7 @@ void	*survey_win(void *arg)
 		if (philo->n_meals >= philo->rules->nb_must_eat)
 			if (have_won(current, philo->rules))
 			{
-				happy_end(agora);
+				happy_end(philo);
 				return (NULL);
 			}
 		current = current->next;

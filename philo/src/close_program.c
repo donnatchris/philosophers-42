@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_program.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/28 00:21:29 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 10:35:40 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,15 @@ void	error(char *message, t_dclst **agora)
 }
 
 // Function to print the death of a philosopher
-void	bad_end(int id, t_dclst **agora)
+void	bad_end(t_philo *philo)
 {
-    t_philo *philo;
-	
-	philo = (t_philo *)(*agora)->data;
-    philo->rules->run_threads = 0;
-	printf("Philosopher %d died\n", id);
-	printf("x_x\n");
+	philo->status = DEAD;
+	write_log(philo);
 }
 
 // Function to stop the simulation after all philosophers have eaten enough
-void	happy_end(t_dclst **agora)
+void	happy_end(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)(*agora)->data;
-	philo->rules->run_threads = 0;
-	printf("All philosophers have eaten enough!\n");
+	philo->status = WON;
+	write_log(philo);
 }

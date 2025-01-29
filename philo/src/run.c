@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/28 00:41:14 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 11:50:09 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,35 @@ void	join_threads(pthread_t *threads, int n_threads)
         i++;
     }
 }
+// faire une fonction pour que une fois la simu trminee tout le monde pose sa fourchette
+// (quadn il y a un dead ou un won)
+// ou voir si cette fonction est dans la librairie?
 
 // Function to write logs
 void	write_log(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->rules->log_mutex);
-	if (philo->status == FORK)
-		printf("%lld %d has taken a fork\n", get_elapsed_time(philo->birth), philo->id);
-	if (philo->status == EATING)
-		printf("%lld %d is eating\n", get_elapsed_time(philo->birth), philo->id);
-	else if (philo->status == SLEEPING)
-		printf("%lld %d is sleeping\n", get_elapsed_time(philo->birth), philo->id);
-	else if (philo->status == THINKING)
-		printf("%lld %d is thinking\n", get_elapsed_time(philo->birth), philo->id);
+    if (philo->rules->run_threads)
+	{
+		if (philo->status == WON)
+		{
+			printf("%lld All philosophers have eaten enough\n", get_elapsed_time(philo->birth));
+			philo->rules->run_threads = 0;
+		}
+		else if (philo->status == DEAD)
+		{
+			printf("%lld %d is dead\n", get_elapsed_time(philo->birth), philo->id);
+			philo->rules->run_threads = 0;
+		}
+		else if (philo->status == FORK)
+			printf("%lld %d has taken a fork\n", get_elapsed_time(philo->birth), philo->id);
+		else if (philo->status == EATING)
+			printf("%lld %d is eating\n", get_elapsed_time(philo->birth), philo->id);
+		else if (philo->status == SLEEPING)
+			printf("%lld %d is sleeping\n", get_elapsed_time(philo->birth), philo->id);
+		else if (philo->status == THINKING)
+			printf("%lld %d is thinking\n", get_elapsed_time(philo->birth), philo->id);
+	}
 	pthread_mutex_unlock(&philo->rules->log_mutex);
 }
 

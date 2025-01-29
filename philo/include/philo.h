@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/28 00:50:21 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 10:19:34 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define EATING 2
 # define SLEEPING 3
 # define DEAD 4
+# define WON 5
 
 // Structures and typedefs
 typedef struct timeval	t_timeval;
@@ -90,7 +91,7 @@ void		philo_sleep(t_dclst *node);
 void		free_and_exit(t_dclst **agora, int status);
 void		destroy_mutex(t_dclst **agora);
 void		error(char *message, t_dclst **agora);
-void		bad_end(int id, t_dclst **agora);
-void		happy_end(t_dclst **agora);
+void		bad_end(t_philo *philo);
+void		happy_end(t_philo *philo);
 
 #endif
