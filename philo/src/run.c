@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 11:50:09 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:25:13 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	run_simulation(t_dclst **agora, t_rules rules, int n_threads)
     threads = (pthread_t *)malloc(sizeof(pthread_t) * n_threads);
     if (!threads)
         free_and_exit(agora, 1);
-
     create_threads(agora, rules, threads, n_threads);
     join_threads(threads, n_threads);
     free(threads);
@@ -30,10 +29,11 @@ void	run_simulation(t_dclst **agora, t_rules rules, int n_threads)
 // Function to create the threads
 void	create_threads(t_dclst **agora, t_rules rules, pthread_t *threads, int n_threads)
 {
-    int		res = 0;
+    int		res;
     int		i;
     t_dclst	*current;
 
+	res = 0;
     res += pthread_create(&threads[0], NULL, survey_dead, (void *)agora);
     if (rules.nb_must_eat != -1)
         res += pthread_create(&threads[n_threads - 1], NULL, survey_win, (void *)agora);
@@ -65,9 +65,6 @@ void	join_threads(pthread_t *threads, int n_threads)
         i++;
     }
 }
-// faire une fonction pour que une fois la simu trminee tout le monde pose sa fourchette
-// (quadn il y a un dead ou un won)
-// ou voir si cette fonction est dans la librairie?
 
 // Function to write logs
 void	write_log(t_philo *philo)
@@ -82,7 +79,7 @@ void	write_log(t_philo *philo)
 		}
 		else if (philo->status == DEAD)
 		{
-			printf("%lld %d is dead\n", get_elapsed_time(philo->birth), philo->id);
+			printf("%lld %d died\n", get_elapsed_time(philo->birth), philo->id);
 			philo->rules->run_threads = 0;
 		}
 		else if (philo->status == FORK)

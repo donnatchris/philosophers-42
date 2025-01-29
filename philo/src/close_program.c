@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_program.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 10:35:40 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:18:46 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	bad_end(t_philo *philo)
 {
 	philo->status = DEAD;
 	write_log(philo);
+	philo->rules->nb_must_eat = 0;
+	philo->rules->time_to_die = 0;
 }
 
 // Function to stop the simulation after all philosophers have eaten enough
@@ -65,4 +67,6 @@ void	happy_end(t_philo *philo)
 {
 	philo->status = WON;
 	write_log(philo);
+	philo->rules->nb_must_eat = 0;
+	philo->rules->time_to_die = 0;
 }

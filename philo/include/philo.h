@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 10:19:34 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:24:23 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef struct s_philo
 /*                  Functions in utils/                  */
 /*********************************************************/
 /******************* utils_function.c ********************/
-long	ft_atoi_long(const char *nptr);
+long		ft_atoi_long(const char *nptr);
 
 /*********************************************************/
 /*                   Functions in src/                   */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_life.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 11:47:19 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/29 17:20:18 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	philo_think(t_dclst *node)
 
 	philo = (t_philo *)node->data;
 	philo->status = THINKING;
-	if (philo->status != DEAD && philo->rules->run_threads)
-		write_log(philo);
+	write_log(philo);
 }
 
 // Function to handle eating
@@ -54,9 +53,6 @@ void	philo_eat(t_dclst *node)
 
 	philo = (t_philo *)node->data;
 	next_philo = (t_philo *)node->next->data;
-
-
-	
 	pthread_mutex_lock(&philo->fork);
 	philo->status = FORK;
 	write_log(philo);
@@ -71,16 +67,6 @@ void	philo_eat(t_dclst *node)
 	pthread_mutex_unlock(&philo->fork);
 }
 
-// // Function to take forks
-// void	take_forks(t_philo *philo, pthread_mutex_t *g_fork, pthread_mutex_t	*r_fork)
-// {
-// 	pthread_mutex_lock(g_fork);
-// 	philo->status = FORK;
-// 	write_log(philo);
-// 	pthread_mutex_lock(r_fork);
-// 	write_log(philo);
-// }
-
 // Function to handle sleeping
 void	philo_sleep(t_dclst *node)
 {
@@ -89,7 +75,6 @@ void	philo_sleep(t_dclst *node)
 	philo = (t_philo *)node->data;
 	philo->status = SLEEPING;
 	philo->status = FORK;
-	if (philo->status != DEAD && philo->rules->run_threads)
-		write_log(philo);
+	write_log(philo);
 	usleep(philo->rules->time_to_sleep * 1000);
 }
