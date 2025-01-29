@@ -6,7 +6,7 @@
 #    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/01/28 00:33:38 by christophed      ###   ########.fr        #
+#    Updated: 2025/01/29 17:37:09 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRC = \
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 # Compilation options for MacOS or Linux
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 # Compiler
 CC = gcc
@@ -54,15 +54,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 $(OBJ_DIR)/%.o: $(UTILS_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Rules to compile the objects files of the bonus part
-$(BONUS_OBJ_DIR)/%.o: $(BONUS_SRC_DIR)/%.c
-	@mkdir -p $(BONUS_OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(BONUS_OBJ_DIR)/%.o: $(BONUS_UTILS_DIR)/%.c
-	@mkdir -p $(BONUS_OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Rule to clean the objects files

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 17:20:18 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 17:56:00 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	*philosopher_life(void *arg)
 	{
 		if (philo->status != DEAD && philo->rules->run_threads)
 			philo_eat(node);
+		if (philo->rules->nb_philo == 1)
+			break ;
 		if (philo->status != DEAD && philo->rules->run_threads)
 			philo_sleep(node);
 		if (philo->status != DEAD && philo->rules->run_threads)
@@ -45,6 +47,9 @@ void	philo_think(t_dclst *node)
 	write_log(philo);
 }
 
+
+// faire fonction change_status protégée par un mutex
+
 // Function to handle eating
 void	philo_eat(t_dclst *node)
 {
@@ -56,6 +61,11 @@ void	philo_eat(t_dclst *node)
 	pthread_mutex_lock(&philo->fork);
 	philo->status = FORK;
 	write_log(philo);
+	if (philo->rules->nb_philo == 1)
+	{
+		pthread_mutex_unlock(&philo->fork);
+		return ;
+	}
 	pthread_mutex_lock(&next_philo->fork);
 	write_log(philo);
 	philo->status = EATING;
