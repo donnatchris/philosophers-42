@@ -57,13 +57,16 @@ execute the program (you must pass 4 or 5 arguments)
 	- src/ directory for main files of the project
 	- utils/ directory for secondary files
 	- include/ directory for headers
+   	- Makefile (with rules: make clean fclean re)
 - philo_bonus/ directory with files for the bonus part
 	- src/ directory for main files of the project
 	- utils/ directory for secondary files
 	- include/ directory for headers
+	- Makefile (with rules: make bonus clean fclean re)
 - test/ directory fot tests files
-- Makefile (with rules: make bonus clean fclean re)
 - readme.md for quick explanation and main commands of the project
+
+Note that each part has its own directory with its own Makefile.
 
 ## DOCUMENTATION:
 
@@ -76,6 +79,9 @@ Multiple threads within the same process are often referred to as multithreading
 
 Fom more explanation about processes, see the readme of my minitalk project on github:
 https://github.com/donnatchris/minitalk
+
+### race condition
+A race condition occurs when the behavior of a software system depends on the relative timing of events, such as the order in which threads or processes execute. It typically happens in concurrent programming when multiple threads or processes access shared resources without proper synchronization, leading to unpredictable and incorrect outcomes. Race conditions can cause bugs that are difficult to reproduce and debug, as they may only manifest under specific timing conditions. Proper synchronization mechanisms, such as mutexes or semaphores, are essential to prevent race conditions and ensure correct program behavior.
 
 ---
 
