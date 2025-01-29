@@ -6,7 +6,7 @@
 #    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/01/29 17:37:09 by christophed      ###   ########.fr        #
+#    Updated: 2025/01/29 20:29:56 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 CFLAGS = -Wall -Wextra -Werror
 
 # Compiler
-CC = gcc
+CC = cc
 
 # Rule to compile the mandatory part
 all: $(TARGET)

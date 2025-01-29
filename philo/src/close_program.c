@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 17:18:46 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 20:46:24 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,21 @@ void	free_and_exit(t_dclst **agora, int status)
 // Function to destroy the mutexes of the philosophers
 void	destroy_mutex(t_dclst **agora)
 {
-    t_dclst	*current;
-    t_philo	*philo;
+	t_dclst	*current;
+	t_philo	*philo;
 
-    if (agora == NULL || *agora == NULL)
-        return ;
-    current = *agora;
-    while (current != NULL)
-    {
-        philo = (t_philo *)current->data;
-        pthread_mutex_destroy(&philo->fork);
-        current = current->next;
-        if (current == *agora)
-            break ;
-    }
+	if (agora == NULL || *agora == NULL)
+		return ;
+	current = *agora;
+	while (current != NULL)
+	{
+		philo = (t_philo *)current->data;
+		pthread_mutex_destroy(&philo->fork);
+		pthread_mutex_destroy(&philo->m_status);
+		current = current->next;
+		if (current == *agora)
+			break ;
+	}
 }
 
 // Function to print an error message and free the agora list
@@ -56,7 +57,7 @@ void	error(char *message, t_dclst **agora)
 // Function to print the death of a philosopher
 void	bad_end(t_philo *philo)
 {
-	philo->status = DEAD;
+	change_status(philo, DEAD);
 	write_log(philo);
 	philo->rules->nb_must_eat = 0;
 	philo->rules->time_to_die = 0;
@@ -65,7 +66,7 @@ void	bad_end(t_philo *philo)
 // Function to stop the simulation after all philosophers have eaten enough
 void	happy_end(t_philo *philo)
 {
-	philo->status = WON;
+	change_status(philo, WON);
 	write_log(philo);
 	philo->rules->nb_must_eat = 0;
 	philo->rules->time_to_die = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dclst1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 08:58:54 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/27 14:09:15 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:45:26 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,17 @@ t_dclst	*dclst_add(t_dclst **head, void *data)
 	new = dclst_create_node(data);
 	if (!new)
 		return (NULL);
-    if (!*head)
-        *head = new;
-    else
-    {
-        new->next = *head;
-        new->prev = (*head)->prev;
-        (*head)->prev->next = new;
-        (*head)->prev = new;
-        *head = new;
-    }	return (new);
+	if (!*head)
+		*head = new;
+	else
+	{
+		new->next = *head;
+		new->prev = (*head)->prev;
+		(*head)->prev->next = new;
+		(*head)->prev = new;
+		*head = new;
+	}
+	return (new);
 }
 
 // Function to remove a node from the doubly circular linked list

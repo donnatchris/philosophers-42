@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 17:24:23 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 20:43:39 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				status;
+	pthread_mutex_t	m_status;
 	t_timeval		birth;
 	t_timeval		last_meal;
 	int				n_meals;
@@ -71,10 +72,12 @@ int			is_positive_int(long n);
 void		print_rules(t_rules rules);
 /***************** store_philosophers.c ******************/
 void		store_philosophers(t_dclst **agora, int nb_philo, t_rules *rules);
-t_philo		*create_philosopher(t_dclst **agora, int id, t_timeval time, t_rules *rules);
+t_philo		*create_philosopher(t_dclst **agora, \
+	int id, t_timeval time, t_rules *rules);
 /************************* run.c *************************/
 void		run_simulation(t_dclst **agora, t_rules rules, int n_threads);
-void		create_threads(t_dclst **agora, t_rules rules, pthread_t *threads, int n_threads);
+void		create_threads(t_dclst **agora, \
+	t_rules rules, pthread_t *threads, int n_threads);
 void		join_threads(pthread_t *threads, int n_threads);
 void		write_log(t_philo *philo);
 long long	get_elapsed_time(t_timeval event);
@@ -87,6 +90,7 @@ void		*philosopher_life(void *arg);
 void		philo_think(t_dclst *node);
 void		philo_eat(t_dclst *node);
 void		philo_sleep(t_dclst *node);
+void		change_status(t_philo *philo, int new_status);
 /********************* close_prgram.c ********************/
 void		free_and_exit(t_dclst **agora, int status);
 void		destroy_mutex(t_dclst **agora);

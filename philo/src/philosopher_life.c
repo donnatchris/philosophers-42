@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 17:56:00 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 20:47:07 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Function to simulate the life of a philosopher
 void	*philosopher_life(void *arg)
 {
-	t_dclst *node;
+	t_dclst	*node;
 	t_philo	*philo;
 
 	node = (t_dclst *)arg;
@@ -43,12 +43,9 @@ void	philo_think(t_dclst *node)
 	t_philo	*philo;
 
 	philo = (t_philo *)node->data;
-	philo->status = THINKING;
+	change_status(philo, THINKING);
 	write_log(philo);
 }
-
-
-// faire fonction change_status protégée par un mutex
 
 // Function to handle eating
 void	philo_eat(t_dclst *node)
@@ -59,7 +56,7 @@ void	philo_eat(t_dclst *node)
 	philo = (t_philo *)node->data;
 	next_philo = (t_philo *)node->next->data;
 	pthread_mutex_lock(&philo->fork);
-	philo->status = FORK;
+	change_status(philo, FORK);
 	write_log(philo);
 	if (philo->rules->nb_philo == 1)
 	{
@@ -68,7 +65,7 @@ void	philo_eat(t_dclst *node)
 	}
 	pthread_mutex_lock(&next_philo->fork);
 	write_log(philo);
-	philo->status = EATING;
+	change_status(philo, EATING);
 	write_log(philo);
 	usleep(philo->rules->time_to_eat * 1000);
 	gettimeofday(&philo->last_meal, NULL);
@@ -83,8 +80,15 @@ void	philo_sleep(t_dclst *node)
 	t_philo	*philo;
 
 	philo = (t_philo *)node->data;
-	philo->status = SLEEPING;
-	philo->status = FORK;
+	change_status(philo, SLEEPING);
 	write_log(philo);
 	usleep(philo->rules->time_to_sleep * 1000);
+}
+
+// Function to change a philosopher status
+void	change_status(t_philo *philo, int new_status)
+{
+	pthread_mutex_lock(&philo->m_status);
+	philo->status = new_status;
+	pthread_mutex_unlock(&philo->m_status);
 }

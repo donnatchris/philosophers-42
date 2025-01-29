@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:17:00 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/27 22:52:49 by christophed      ###   ########.fr       */
+/*   Updated: 2025/01/29 19:45:51 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_philo	*create_philosopher(t_dclst **agora, int id, t_timeval time, t_rules *ru
 		error("Malloc failed", agora);
 	philo->id = id;
 	if (pthread_mutex_init(&philo->fork, NULL))
+		error("Mutex init failed", agora);
+	if (pthread_mutex_init(&philo->m_status, NULL))
 		error("Mutex init failed", agora);
 	philo->status = THINKING;
 	philo->birth = time;
