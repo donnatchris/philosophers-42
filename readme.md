@@ -74,6 +74,8 @@ Each thread has its own execution context, including a program counter, stack, a
 Threads are commonly used to improve the performance of applications by performing operations like I/O, computation, or waiting for events in parallel, without blocking the main execution flow of the program.
 Multiple threads within the same process are often referred to as multithreading, which can lead to more efficient use of system resources, especially on multi-core processors.
 
+
+It is essential to wait for the completion of each thread before terminating a program to ensure proper resource management and program stability. Failing to do so may lead to resource leaks, incomplete operations, or corrupted data if a thread is prematurely interrupted while accessing shared resources. Synchronization functions like pthread_join() in POSIX threads allow the main thread to wait for specific threads to finish execution, guaranteeing that all necessary tasks are completed before program termination. This practice also prevents creating orphaned threads, which continue to run in the background and consume system resources unnecessarily. Properly managing thread lifecycle ensures robust and predictable program behavior.
 Fom more explanation about processes, see the readme of my minitalk project on github:
 https://github.com/donnatchris/minitalk
 
