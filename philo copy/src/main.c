@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:55:03 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 13:57:04 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 16:10:22 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		error("Invalid number of arguments", NULL);
-	store_input(&rules, ac, av);
+	store_rules(&rules, ac, av);
 	print_rules(rules);
 	agora = malloc(sizeof(t_dclst *));
 	if (!agora)
@@ -30,6 +30,6 @@ int	main(int ac, char **av)
 		n_threads = rules.nb_philo + 1;
 	else
 		n_threads = rules.nb_philo + 2;
-	run_simulation(agora, rules, n_threads);
+	launch_simu(agora, rules, n_threads);
 	return (0);
 }

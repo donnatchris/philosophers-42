@@ -6,14 +6,14 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/03 22:56:00 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:51:32 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 // Function to store the rules
-void	store_input(t_rules *rules, int ac, char **av)
+void	store_rules(t_rules *rules, int ac, char **av)
 {
 	long	nb_philo;
 	long	time_to_die;

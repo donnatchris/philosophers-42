@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 15:03:45 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 16:28:34 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,23 @@ void	error(char *message, t_dclst **agora)
 void	free_and_exit(t_dclst **agora, int status)
 {
 	t_rules	*rules;
+	t_philo	*first_philo;
 
+	first_philo = (t_philo *)(*agora)->data;
 	if (agora)
 	{
 		rules = ((t_philo *)(*agora)->data)->rules;
 		pthread_mutex_destroy(&rules->log_mutex);
 		pthread_mutex_destroy(&rules->run_mutex);
-		destroy_mutex(agora);
+		destroy_forks(first_philo->left_fork, rules->nb_philo);
+		destroy_philo_mutexes(agora);
 		dclst_clear(agora);
 	}
 	exit(status);
 }
 
 // Function to destroy the mutexes of the philosophers
-void	destroy_mutex(t_dclst **agora)
+void	destroy_philo_mutexes(t_dclst **agora)
 {
 	t_dclst	*current;
 	t_philo	*philo;
@@ -51,11 +54,22 @@ void	destroy_mutex(t_dclst **agora)
 			pthread_mutex_destroy(&philo->last_meal_mutex);
 		if (philo->n_meal_init)
 			pthread_mutex_destroy(&philo->n_meals_mutex);
-		
-		pthread_mutex_destroy(&philo->fork);
-	
 		current = current->next;
 		if (current == *agora)
 			break ;
 	}
+}
+
+// Function to destroy the forks
+void	destroy_forks(pthread_mutex_t *forks, int nb_forks)
+{
+	int	i;
+
+	i = 0;
+	while (i < nb_forks)
+	{
+		pthread_mutex_destroy(&forks[i]);
+		i++;
+	}
+	free(forks);
 }

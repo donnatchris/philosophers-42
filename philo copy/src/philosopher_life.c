@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 15:12:36 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 16:33:09 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,23 @@ void	philo_think(t_philo *philo)
 void	philo_eat(t_dclst *node)
 {
 	t_philo	*philo;
-	t_philo	*next_philo;
 
 	philo = (t_philo *)node->data;
-	next_philo = (t_philo *)node->next->data;
-	pthread_mutex_lock(&philo->fork);
+	pthread_mutex_lock(philo->left_fork);
 	write_log(philo, FORK);
 	if (philo->rules->nb_philo == 1)
 	{
-		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
-	pthread_mutex_lock(&next_philo->fork);
+	pthread_mutex_lock(philo->right_fork);
 	write_log(philo, FORK);
 	write_log(philo, EAT);
 	usleep(philo->rules->time_to_eat * 1000);
 	check_last_meal(philo, WRITE);
 	check_n_meals(philo, WRITE);
-	pthread_mutex_unlock(&next_philo->fork);
-	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
 void	philo_sleep(t_philo *philo)

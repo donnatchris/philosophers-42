@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run.c                                              :+:      :+:    :+:   */
+/*   launch_simulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 15:21:30 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 16:10:00 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-// Function to create the threads and run the simulation
-void	run_simulation(t_dclst **agora, t_rules rules, int n_threads)
+// Function to create the forks, create the threads and run the simulation
+void	launch_simu(t_dclst **agora, t_rules rules, int n_threads)
 {
-	pthread_t	*threads;
+	pthread_t		*threads;
 
 	threads = (pthread_t *)malloc(sizeof(pthread_t) * n_threads);
 	if (!threads)
