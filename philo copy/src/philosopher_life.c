@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 16:33:09 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 17:12:36 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*philosopher_life(void *arg)
 	philo = (t_philo *)node->data;
 	philo_think(philo);
 	if (philo->id % 2 == 0)
-		usleep(900);
+		usleep(500);
 	while (check_run(philo->rules, READ))
 	{
 		philo_eat(node);
@@ -43,6 +43,7 @@ void	philo_think(t_philo *philo)
 void	philo_eat(t_dclst *node)
 {
 	t_philo	*philo;
+	int		meals;
 
 	philo = (t_philo *)node->data;
 	pthread_mutex_lock(philo->left_fork);
@@ -57,7 +58,11 @@ void	philo_eat(t_dclst *node)
 	write_log(philo, EAT);
 	usleep(philo->rules->time_to_eat * 1000);
 	check_last_meal(philo, WRITE);
-	check_n_meals(philo, WRITE);
+	meals = check_n_meals(philo, WRITE);
+	if (philo->rules->nb_must_eat != -1)
+		if (meals >= philo->rules->nb_must_eat)
+			if (check_victory(node, philo->rules))
+				write_log(philo, WON);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }

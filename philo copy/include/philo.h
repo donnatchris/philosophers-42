@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 16:30:50 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 17:11:33 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,11 @@ t_philo			*create_philosopher(t_dclst **agora, \
 pthread_mutex_t	*create_forks(int nb_philo);
 void			give_forks(t_dclst *agora, pthread_mutex_t *forks, int nb_philo);
 /****************** launch_simulation.c ******************/
-void			launch_simu(t_dclst **agora, t_rules rules, int n_threads);
-void			create_threads(t_dclst **agora, \
-	t_rules rules, pthread_t *threads, int n_threads);
+void			launch_simu(t_dclst **agora, t_rules rules);
+void			create_threads(t_dclst **agora, t_rules rules, pthread_t *threads);
 void			join_threads(pthread_t *threads, int n_threads);
-/************************ survey.c ***********************/
 void			*survey_dead(void *arg);
-void			*survey_win(void *arg);
-int				have_won(t_dclst *current, t_rules *rules);
+int				check_victory(t_dclst *current, t_rules *rules);
 /******************* philosopher_life.c ******************/
 void			*philosopher_life(void *arg);
 void			philo_think(t_philo *philo);
