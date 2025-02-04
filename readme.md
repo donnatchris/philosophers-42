@@ -343,5 +343,16 @@ They can perform different tasks based on conditions defined after the fork().
 - Shells like bash: When a command is executed, the shell creates a child process with fork() to run the command while keeping the parent process available.
 - Pipeline management (ls | grep): Each command in the pipeline is executed in a separate process created with fork().
 
+---
+
+To properly terminate a child process using waitpid() and exit(), start by creating the child process with fork().
+The parent and child continue executing their respective code after the fork.
+
+In the child process, perform the necessary tasks.
+Call exit(status) to terminate properly.
+The status is an integer value, often EXIT_SUCCESS or EXIT_FAILURE, which will be returned to the parent.
+
+In the parent process, use waitpid() to wait for the child process to finish and retrieve its exit status.
+Check if the child terminated normally with the WIFEXITED(status) macro and get the exit status using WEXITSTATUS(status).
 
 
