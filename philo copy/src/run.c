@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 14:34:09 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:21:30 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,30 +69,3 @@ void	join_threads(pthread_t *threads, int n_threads)
 	}
 }
 
-// Function to write logs
-void	write_log(t_philo *philo, int status)
-{
-	pthread_mutex_lock(&philo->rules->log_mutex);
-	if (check_run(philo->rules, READ))
-	{
-		if (status == WON)
-		{
-			check_run(philo->rules, STOP);
-			printf("%lld All philosophers have eaten enough\n", get_actual_time());
-		}
-		else if (status == DEAD)
-		{
-			check_run(philo->rules, STOP);
-			printf("%lld %d died\n", get_actual_time(), philo->id);
-		}
-		else if (status == FORK)
-			printf("%lld %d has taken a fork\n", get_actual_time(), philo->id);
-		else if (status == EAT)
-			printf("%lld %d is eating\n", get_actual_time(), philo->id);
-		else if (status == SLEEP)
-			printf("%lld %d is sleeping\n", get_actual_time(), philo->id);
-		else if (status == THINK)
-			printf("%lld %d is thinking\n", get_actual_time(), philo->id);
-	}
-	pthread_mutex_unlock(&philo->rules->log_mutex);
-}

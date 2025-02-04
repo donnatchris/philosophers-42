@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 14:43:12 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:12:36 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	philo_eat(t_dclst *node)
 	write_log(philo, FORK);
 	write_log(philo, EAT);
 	usleep(philo->rules->time_to_eat * 1000);
-	philo->last_meal = get_actual_time();
-	philo->n_meals++;
+	check_last_meal(philo, WRITE);
+	check_n_meals(philo, WRITE);
 	pthread_mutex_unlock(&next_philo->fork);
 	pthread_mutex_unlock(&philo->fork);
 }

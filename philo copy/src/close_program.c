@@ -6,11 +6,18 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 14:17:57 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:03:45 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+// Function to print an error message and free the agora list
+void	error(char *message, t_dclst **agora)
+{
+	printf("Error: %s\n", message);
+	free_and_exit(agora, 1);
+}
 
 // Function to exit the program and free memory
 void	free_and_exit(t_dclst **agora, int status)
@@ -40,16 +47,15 @@ void	destroy_mutex(t_dclst **agora)
 	while (current != NULL)
 	{
 		philo = (t_philo *)current->data;
+		if (philo->last_meal_init)
+			pthread_mutex_destroy(&philo->last_meal_mutex);
+		if (philo->n_meal_init)
+			pthread_mutex_destroy(&philo->n_meals_mutex);
+		
 		pthread_mutex_destroy(&philo->fork);
+	
 		current = current->next;
 		if (current == *agora)
 			break ;
 	}
-}
-
-// Function to print an error message and free the agora list
-void	error(char *message, t_dclst **agora)
-{
-	printf("Error: %s\n", message);
-	free_and_exit(agora, 1);
 }

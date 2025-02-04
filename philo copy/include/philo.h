@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 14:38:58 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:38:39 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define WON 5
 # define READ 0
 # define STOP 1
+# define WRITE 2
 
 // Structures and typedefs
 typedef struct timeval	t_timeval;
@@ -49,8 +50,12 @@ typedef struct s_rules
 typedef struct s_philo
 {
 	int				id;
-	long long		last_meal;
 	int				n_meals;
+	pthread_mutex_t	n_meals_mutex;
+	int				n_meal_init;
+	long long		last_meal;
+	pthread_mutex_t last_meal_mutex;
+	int				last_meal_init;
 	pthread_mutex_t	fork;
 	t_rules			*rules;
 }					t_philo;
@@ -82,17 +87,20 @@ void		run_simulation(t_dclst **agora, t_rules rules, int n_threads);
 void		create_threads(t_dclst **agora, \
 	t_rules rules, pthread_t *threads, int n_threads);
 void		join_threads(pthread_t *threads, int n_threads);
-void		write_log(t_philo *philo, int status);
 /************************ survey.c ***********************/
 void		*survey_dead(void *arg);
 void		*survey_win(void *arg);
 int			have_won(t_dclst *current, t_rules *rules);
-int			check_run(t_rules *rules, int mode);
 /******************* philosopher_life.c ******************/
 void		*philosopher_life(void *arg);
 void		philo_think(t_philo *philo);
 void		philo_eat(t_dclst *node);
 void		philo_sleep(t_philo *philo);
+/******************** mutex_functions.c ******************/
+int			check_run(t_rules *rules, int mode);
+long long	check_last_meal(t_philo *philo, int mode);
+int			check_n_meals(t_philo *philo, int mode);
+void		write_log(t_philo *philo, int status);
 /********************* close_prgram.c ********************/
 void		free_and_exit(t_dclst **agora, int status);
 void		destroy_mutex(t_dclst **agora);

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:39:36 by chdonnat          #+#    #+#             */
-/*   Updated: 2025/02/04 14:33:42 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:42:00 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ void	*survey_dead(void *arg)
 {
 	t_dclst		**agora;
 	t_dclst		*current;
+	t_rules		*rules;
 	t_philo		*philo;
 	int			time;
 
 	agora = (t_dclst **) arg;
 	current = *agora;
+	rules = ((t_philo *)current->data)->rules;
 	philo = (t_philo *) current->data;
 	time = philo->rules->time_to_die;
-	while (philo->rules->run_threads)
+	while (check_run(rules, READ))
 	{
-		if (get_elapsed_time(philo->last_meal) > time)
+		if (get_elapsed_time(check_last_meal(philo, READ)) > time)
         {
 			write_log(philo, DEAD);
 			return (NULL);
@@ -40,13 +42,15 @@ void	*survey_dead(void *arg)
 // Function to survey if all philosophers have eaten enough
 void	*survey_win(void *arg)
 {
-	t_dclst		**agora;
+	t_dclst	**agora;
 	t_dclst	*current;
+	t_rules	*rules;
 	t_philo	*philo;
 
 	agora = (t_dclst **) arg;
 	current = *agora;
-    while (((t_philo *) current->data)->rules->run_threads)
+	rules = ((t_philo *)current->data)->rules;
+    while (check_run(rules, READ))
 	{
 		philo = (t_philo *) current->data;
 		if (philo->n_meals >= philo->rules->nb_must_eat)
@@ -70,23 +74,10 @@ int	have_won(t_dclst *current, t_rules *rules)
 	while(i < rules->nb_philo)
 	{
 		philo = (t_philo *) current->data;
-		if (philo->n_meals < rules->nb_must_eat)
+		if (check_n_meals(philo, READ) < rules->nb_must_eat)
 			return (0);
 		i++;
 		current = current->next;
 	}
 	return (1);
-}
-
-// Function to check or modify run_threads variable
-int	check_run(t_rules *rules, int mode)
-{
-	int	run;
-
-	pthread_mutex_lock(&rules->run_mutex);
-	if (mode == STOP)
-		rules->run_threads = 0;
-	run = rules->run_threads;
-	pthread_mutex_unlock(&rules->run_mutex);
-	return (run);
 }
