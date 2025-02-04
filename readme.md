@@ -87,6 +87,11 @@ https://github.com/donnatchris/minitalk
 
 ---
 
+### timestamp
+A timestamp is a sequence of characters representing the date and time when a specific event occurred. It is typically formatted as a combination of year, month, day, hour, minute, and second, often in a standard format like UNIX time (the number of seconds since January 1, 1970, UTC). Timestamps are widely used in computing to track events, synchronize processes, and manage time-sensitive operations such as logging, file modifications, and database entries.
+
+---
+
 ### gettimeofday()
 > #include <sys/time.h>
 
