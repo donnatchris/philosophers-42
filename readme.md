@@ -190,6 +190,13 @@ In addition to these basic operations, there are other features, such as trylock
 
 Mutexes are often used to protect shared data structures or resources in multithreading programs to maintain data integrity. However, improper use of mutexes can lead to issues like deadlocks, where two or more threads are waiting for each other to release a mutex, causing the program to freeze.
 
+
+Properly unlocking and destroying all mutexes before terminating a program is crucial to maintain resource integrity and ensure system stability.
+If mutexes remain locked, other threads may be indefinitely blocked, leading to deadlocks and resource leaks.
+Unlocking mutexes allows all waiting threads to complete their operations, while calling pthread_mutex_destroy() ensures that system resources associated with the mutex are released.
+Failure to destroy mutexes can result in memory leaks and undefined behavior, especially in long-running or resource-intensive applications.
+Cleaning up mutexes properly is a best practice in multithreaded programming for robust and predictable program execution.
+
 ---
 
 ### pthread_mutex_init()
