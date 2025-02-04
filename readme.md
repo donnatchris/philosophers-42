@@ -271,7 +271,7 @@ A process represents a program in execution, with its own memory space, address 
 When a program wants to execute a parallel task or a subtask, it can create a new process by duplicating the calling process, which is exactly what the fork() function does.
 This mechanism allows creating independent processes that can run in parallel.
 
-#### differences between fork() and thread craetion
+#### differences between fork() and thread creation
 The differences between fork() and thread creation are mainly related to how processes and threads manage execution, memory, and resources.
 fork() creates a new, independent process with its own memory space, file descriptors, and execution context.
 The child process is a copy of the parent at the time of creation, but after fork() is called, the two processes run independently.
