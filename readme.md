@@ -39,7 +39,7 @@ Each philosopher should be implemented as a process, but the main process should
 
 ## SOME COMMANDS YOU CAN USE:
 
-compile the program and clean by suppressinf the .o files:
+compile the program and suppress the .o files:
 
 	make && make clean
 
