@@ -284,7 +284,7 @@ They can perform different tasks based on conditions defined after the fork().
 #### Return values
 - In the parent process, fork() returns the child process identifier (a positive integer).
 - In the child process, fork() returns 0.
-- In case of an error (failure to create the process), fork() returns -1 and sets errno (needs unistd.h and stdio.h).
+- In case of an error (failure to create the process), fork() returns -1 and sets errno (needs stdio.h for errno).
 
 #### Practical use cases
 - Concurrent servers: fork() is used to handle multiple clients simultaneously, with each client managed by a separate child process.
