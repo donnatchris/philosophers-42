@@ -81,10 +81,6 @@ Synchronization functions like pthread_join() in POSIX threads allow the main th
 This practice also prevents creating orphaned threads, which continue to run in the background and consume system resources unnecessarily.
 Properly managing thread lifecycle ensures robust and predictable program behavior.
 
-
-Fom more explanation about processes, see the readme of my minitalk project on github:
-https://github.com/donnatchris/minitalk
-
 ---
 
 ### timestamp
@@ -267,8 +263,8 @@ pthread_mutex_unlock is used to unlock a previously locked mutex, allowing other
 ---
 
 ### the creation of processes
-Fom a quick introduction to processes, see the readme of my minitalk project on github:
-https://github.com/donnatchris/minitalk
+> Fom a quick introduction to processes, see the readme of my minitalk project on github:
+> https://github.com/donnatchris/minitalk
 
 The creation of processes is a fundamental aspect of managing multitasking applications on modern operating systems.
 A process represents a program in execution, with its own memory space, address space, and resources.
