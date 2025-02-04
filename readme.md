@@ -263,3 +263,31 @@ The function returns 0 on success and a positive error code on failure, such as 
 	int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 pthread_mutex_unlock is used to unlock a previously locked mutex, allowing other threads to access the critical section that was protected by the mutex. The function takes a pointer to a pthread_mutex_t variable, which represents the mutex to be unlocked. It is important that the thread calling this function has previously locked the mutex. The function returns 0 on success and a positive error code on failure, such as when the mutex is not locked by the calling thread.
+
+---
+
+### fork()
+> # include <unistd.h>
+
+	pid_t fork(void);
+ 
+The fork() function creates a new process by duplicating the calling process.
+It is available on Unix and Unix-like systems.
+The newly created process, called the child process, operates independently from the parent process.
+
+
+When fork() is called, a new child process is created.
+The child process inherits the memory, file descriptors, and execution context of the parent process.
+Both processes continue execution from the instruction following the fork() call.
+They can perform different tasks based on conditions defined after the fork().
+
+#### Return values
+- In the parent process, fork() returns the child process identifier (a positive integer).
+- In the child process, fork() returns 0.
+- In case of an error (failure to create the process), fork() returns -1 and sets errno (needs unistd.h and stdio.h).
+
+#### Practical use cases
+- Concurrent servers: fork() is used to handle multiple clients simultaneously, with each client managed by a separate child process.
+- Parallel processing: It allows the distribution of intensive computations across multiple processes to improve performance.
+- Shells like bash: When a command is executed, the shell creates a child process with fork() to run the command while keeping the parent process available.
+- Pipeline management (ls | grep): Each command in the pipeline is executed in a separate process created with fork().
