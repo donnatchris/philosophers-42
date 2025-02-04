@@ -6,14 +6,14 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/28 00:32:41 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 15:51:32 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 // Function to store the rules
-void	store_input(t_rules *rules, int ac, char **av)
+void	store_rules(t_rules *rules, int ac, char **av)
 {
 	long	nb_philo;
 	long	time_to_die;
@@ -37,6 +37,8 @@ void	store_input(t_rules *rules, int ac, char **av)
 	else
 		rules->nb_must_eat = -1;
 	if (pthread_mutex_init(&rules->log_mutex, NULL) != 0)
+		error("mutex init failed", NULL);
+	if (pthread_mutex_init(&rules->run_mutex, NULL) != 0)
 		error("mutex init failed", NULL);
 }
 

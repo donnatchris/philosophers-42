@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/01/29 20:47:07 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 17:47:45 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,75 +20,55 @@ void	*philosopher_life(void *arg)
 
 	node = (t_dclst *)arg;
 	philo = (t_philo *)node->data;
-	philo_think(node);
+	philo_think(philo);
 	if (philo->id % 2 == 0)
-		usleep(900);
-	while (philo->status != DEAD && philo->rules->run_threads)
+		usleep(500);
+	while (check_run(philo->rules, READ))
 	{
-		if (philo->status != DEAD && philo->rules->run_threads)
-			philo_eat(node);
+		philo_eat(node);
 		if (philo->rules->nb_philo == 1)
 			break ;
-		if (philo->status != DEAD && philo->rules->run_threads)
-			philo_sleep(node);
-		if (philo->status != DEAD && philo->rules->run_threads)
-			philo_think(node);
+		philo_sleep(philo);
+		philo_think(philo);
 	}
 	return (NULL);
 }
 
-// Function to handle thinking
-void	philo_think(t_dclst *node)
+void	philo_think(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)node->data;
-	change_status(philo, THINKING);
-	write_log(philo);
+	write_log(philo, THINK);
 }
 
 // Function to handle eating
 void	philo_eat(t_dclst *node)
 {
 	t_philo	*philo;
-	t_philo	*next_philo;
+	int		meals;
 
 	philo = (t_philo *)node->data;
-	next_philo = (t_philo *)node->next->data;
-	pthread_mutex_lock(&philo->fork);
-	change_status(philo, FORK);
-	write_log(philo);
+	pthread_mutex_lock(philo->left_fork);
+	write_log(philo, FORK);
 	if (philo->rules->nb_philo == 1)
 	{
-		pthread_mutex_unlock(&philo->fork);
+		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
-	pthread_mutex_lock(&next_philo->fork);
-	write_log(philo);
-	change_status(philo, EATING);
-	write_log(philo);
+	pthread_mutex_lock(philo->right_fork);
+	write_log(philo, FORK);
+	write_log(philo, EAT);
+	check_last_meal(philo, WRITE);
 	usleep(philo->rules->time_to_eat * 1000);
-	gettimeofday(&philo->last_meal, NULL);
-	philo->n_meals++;
-	pthread_mutex_unlock(&next_philo->fork);
-	pthread_mutex_unlock(&philo->fork);
+	meals = check_n_meals(philo, WRITE);
+	if (philo->rules->nb_must_eat != -1)
+		if (meals >= philo->rules->nb_must_eat)
+			if (check_victory(node, philo->rules))
+				write_log(philo, WON);
+	pthread_mutex_unlock(philo->left_fork);
+	pthread_mutex_unlock(philo->right_fork);
 }
 
-// Function to handle sleeping
-void	philo_sleep(t_dclst *node)
+void	philo_sleep(t_philo *philo)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *)node->data;
-	change_status(philo, SLEEPING);
-	write_log(philo);
+	write_log(philo, SLEEP);
 	usleep(philo->rules->time_to_sleep * 1000);
-}
-
-// Function to change a philosopher status
-void	change_status(t_philo *philo, int new_status)
-{
-	pthread_mutex_lock(&philo->m_status);
-	philo->status = new_status;
-	pthread_mutex_unlock(&philo->m_status);
 }
