@@ -291,3 +291,7 @@ They can perform different tasks based on conditions defined after the fork().
 - Parallel processing: It allows the distribution of intensive computations across multiple processes to improve performance.
 - Shells like bash: When a command is executed, the shell creates a child process with fork() to run the command while keeping the parent process available.
 - Pipeline management (ls | grep): Each command in the pipeline is executed in a separate process created with fork().
+
+
+Fom more explanation about processes, see the readme of my minitalk project on github:
+https://github.com/donnatchris/minitalk
