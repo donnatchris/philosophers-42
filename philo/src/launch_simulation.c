@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 17:11:09 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 19:28:26 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ void	*survey_dead(void *arg)
 	while (check_run(rules, READ))
 	{
 		if (get_elapsed_time(check_last_meal(philo, READ)) > time)
-        {
+		{
 			write_log(philo, DEAD);
 			return (NULL);
-        }
+		}
 		current = current->next;
 		philo = (t_philo *) current->data;
 	}
@@ -101,7 +101,7 @@ int	check_victory(t_dclst *current, t_rules *rules)
 	int		i;
 
 	i = 0;
-	while(i < rules->nb_philo)
+	while (i < rules->nb_philo)
 	{
 		philo = (t_philo *) current->data;
 		if (check_n_meals(philo, READ) < rules->nb_must_eat)

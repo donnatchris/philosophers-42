@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:07:17 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 15:38:28 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 19:27:05 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	write_log(t_philo *philo, int status)
 		if (status == WON)
 		{
 			check_run(philo->rules, STOP);
-			printf("%lld All philosophers have eaten enough\n", get_actual_time());
+			printf("%lld All philosophers have eaten enough\n", \
+			get_actual_time());
 		}
 		else if (status == DEAD)
 		{

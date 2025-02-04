@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 20:17:00 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 16:24:52 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 19:29:22 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	store_philosophers(t_dclst **agora, int nb_philo, t_rules *rules)
 {
-	int			i;
-	long long	time;
+	int				i;
+	long long		time;
 	pthread_mutex_t	*forks;
 
 	*agora = NULL;
@@ -33,7 +33,8 @@ void	store_philosophers(t_dclst **agora, int nb_philo, t_rules *rules)
 }
 
 // Function to create a philosopher
-t_philo	*create_philosopher(t_dclst **agora, int id, long long time, t_rules *rules)
+t_philo	*create_philosopher(t_dclst **agora, int id, long long time, \
+		t_rules *rules)
 {
 	t_philo	*philo;
 

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 15:51:32 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/04 19:26:45 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	print_rules(t_rules rules)
 	if (rules.nb_must_eat == -1)
 		printf("Number of times each philosopher must eat:\tuntil death\n");
 	else
-	printf("Number of times each philosopher must eat:\t%d\n", rules.nb_must_eat);
+		printf("Number of times each philosopher must eat:\t%d\n", \
+		rules.nb_must_eat);
 	printf("***********************************************************\n\n");
 }
