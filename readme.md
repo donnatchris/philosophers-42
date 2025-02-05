@@ -315,6 +315,17 @@ Threads also allow parallel execution, but all threads run within the same memor
 
 In summary, fork() creates a new process with its own memory and resources, more costly in terms of time and management, and typically used for independent tasks. Threads create an execution unit within the same process, sharing memory and resources, lighter but requiring synchronization mechanisms to avoid issues related to concurrent data access. Each method has its advantages and disadvantages depending on the needs of the application (parallelism, data sharing, resource cost, etc.).
 
+
+To properly terminate a child process using waitpid() and exit(), start by creating the child process with fork().
+The parent and child continue executing their respective code after the fork.
+
+In the child process, perform the necessary tasks.
+Call exit(status) to terminate properly.
+The status is an integer value, often EXIT_SUCCESS or EXIT_FAILURE, which will be returned to the parent.
+
+In the parent process, use waitpid() to wait for the child process to finish and retrieve its exit status.
+Check if the child terminated normally with the WIFEXITED(status) macro and get the exit status using WEXITSTATUS(status).
+
 ---
 
 ### fork()
@@ -345,14 +356,27 @@ They can perform different tasks based on conditions defined after the fork().
 
 ---
 
-To properly terminate a child process using waitpid() and exit(), start by creating the child process with fork().
-The parent and child continue executing their respective code after the fork.
+### waitpid()
+> #include <sys/types.h>
+> #include <sys/wait.h>
 
-In the child process, perform the necessary tasks.
-Call exit(status) to terminate properly.
-The status is an integer value, often EXIT_SUCCESS or EXIT_FAILURE, which will be returned to the parent.
+	pid_t waitpid(pid_t pid, int *status, int options)
+ 
 
-In the parent process, use waitpid() to wait for the child process to finish and retrieve its exit status.
-Check if the child terminated normally with the WIFEXITED(status) macro and get the exit status using WEXITSTATUS(status).
+The waitpid() function is used to wait for the termination of a specific child process and retrieve its termination status.
+Unlike wait(), which waits for any child process, waitpid() allows targeting a specific child.
+The pid parameter specifies which process to wait for.
+- A value greater than 0 waits for the process with the specified identifier.
+- A value of -1 is equivalent to wait(), waiting for any child process.
+- A value of 0 waits for a child process from the same process group as the parent.
+- A value less than -1 waits for a child whose process group matches the absolute value of pid.
+The status parameter is a pointer to an integer variable used to store the termination status of the child process.
+Macros like WIFEXITED(status) can be used to interpret this status.
+The options parameter allows adjusting the function's behavior.
+A value of 0 indicates the default behavior, blocking the parent until the child process terminates.
+The WNOHANG option prevents blocking if no child process has terminated. The WUNTRACED option reports child processes that have been stopped but not terminated.
+The function returns the pid of the terminated process if it succeeds.
+If no condition is met and WNOHANG is used, it returns 0.
+In case of an error, it returns -1 and sets errno.
 
 
