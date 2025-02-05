@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 16:28:34 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/05 14:00:40 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	free_and_exit(t_dclst **agora, int status)
 	t_rules	*rules;
 	t_philo	*first_philo;
 
-	first_philo = (t_philo *)(*agora)->data;
 	if (agora)
 	{
+		first_philo = (t_philo *)(*agora)->data;
 		rules = ((t_philo *)(*agora)->data)->rules;
 		pthread_mutex_destroy(&rules->log_mutex);
 		pthread_mutex_destroy(&rules->run_mutex);
