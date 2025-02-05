@@ -371,6 +371,7 @@ The pid parameter specifies which process to wait for.
 - A value of -1 is equivalent to wait(), waiting for any child process.
 - A value of 0 waits for a child process from the same process group as the parent.
 - A value less than -1 waits for a child whose process group matches the absolute value of pid.
+  
 The status parameter is a pointer to an integer variable used to store the termination status of the child process.
 Macros like WIFEXITED(status) can be used to interpret this status.
 The options parameter allows adjusting the function's behavior.
