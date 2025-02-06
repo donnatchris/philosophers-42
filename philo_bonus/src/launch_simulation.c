@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_simulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 19:28:26 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/06 15:25:46 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,39 @@
 // Function to create the forks, create the threads and run the simulation
 void	launch_simu(t_dclst **agora, t_rules rules)
 {
-	pthread_t	*threads;
-	int			n_threads;
+	pid_t	*pid;
 
-	n_threads = rules.nb_philo + 1;
-	threads = (pthread_t *)malloc(sizeof(pthread_t) * n_threads);
-	if (!threads)
-		free_and_exit(agora, 1);
-	create_threads(agora, rules, threads);
+	pid = (pid_t *) malloc(sizeof(pid_t) * rules.nb_philo);
+	if (!pid)
+		error("Malloc failed", &rules, agora);
+	create_processes(pid, agora, &rules);
+	
 	join_threads(threads, n_threads);
-	free(threads);
-	free_and_exit(agora, 0);
+	free(pid);
+	free_and_exit(&rules, agora, 0);
 }
 
 // Function to create the threads
-void	create_threads(t_dclst **agora, t_rules rules, pthread_t *threads)
+void	create_processes(pid_t *pid, t_dclst **agora, t_rules *rules)
 {
-	int		res;
 	int		i;
-	t_dclst	*current;
+	t_philo	philo;
 
-	res = 0;
-	res += pthread_create(&threads[0], NULL, survey_dead, (void *)agora);
-	current = *agora;
-	i = 1;
-	while (i <= rules.nb_philo)
+	philo = (t_philo *)
+	i = 0;
+	while (i < rules->nb_philo)
 	{
-		res += pthread_create(&threads[i], NULL, philosopher_life, \
-		(void *)current);
-		current = current->next;
-		i++;
-	}
-	if (res)
-	{
-		check_run(&rules, STOP);
-		free(threads);
-		error("pthread error", agora);
+		pid[i] = fork();
+		if (pid[i] < 0)
+		{
+			while (pid[--i])
+				kill(pid[i], SIGTERM);
+			error("fork failed", rules, agora);
+		}
+		if (pid[i] == 0)
+			philosopher_life(agora[i]);
+		else
+			i++;
 	}
 }
 

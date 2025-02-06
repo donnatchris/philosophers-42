@@ -6,7 +6,7 @@
 /*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 14:42:38 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/02/06 15:14:30 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <signal.h>
 # include <fcntl.h>
 # include <pthread.h>
 # include <semaphore.h>
@@ -117,9 +118,9 @@ void			write_log(t_philo *philo, int status);
 /* ************************************************************************** */
 /*									close_program.c 						  */
 /* ************************************************************************** */
-void	error(char *message, t_rules *rules, t_dclst **agora);
-void	free_and_exit(t_rules *rules, t_dclst **agora, int status);
-void	destroy_rules_sem(t_rules *rules);
-void	destroy_philo_sem(t_dclst **agora);
+void			error(char *message, t_rules *rules, t_dclst **agora);
+void			free_and_exit(t_rules *rules, t_dclst **agora, int status);
+void			destroy_rules_sem(t_rules *rules);
+void			destroy_philo_sem(t_dclst **agora);
 
 #endif

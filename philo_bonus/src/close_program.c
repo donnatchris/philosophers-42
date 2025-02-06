@@ -6,7 +6,7 @@
 /*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 14:37:33 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:58:50 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Function to print an error message and free the agora list
 void	error(char *message, t_rules *rules, t_dclst **agora)
 {
-	printf("Error: %s\n", message);
+	printf("Error\n%s\n", message);
 	free_and_exit(rules, agora, 1);
 }
 
