@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mutex_functions.c                                  :+:      :+:    :+:   */
+/*   sem_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:07:17 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 14:35:30 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:35:11 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	check_run(t_rules *rules, int mode)
 {
 	int	run;
 
-	pthread_mutex_lock(&rules->run_mutex);
+	sem_wait(rules->run_sem);
 	if (mode == STOP)
 		rules->run_threads = 0;
 	run = rules->run_threads;
-	pthread_mutex_unlock(&rules->run_mutex);
+	sem_post(rules->run_sem);
 	return (run);
 }
 
@@ -30,11 +30,11 @@ long long	check_last_meal(t_philo *philo, int mode)
 {
 	long long	last_meal;
 
-	pthread_mutex_lock(&philo->last_meal_mutex);
+	sem_wait(philo->last_meal_sem);
 	if (mode == WRITE)
 		philo->last_meal = get_actual_time();
 	last_meal = philo->last_meal;
-	pthread_mutex_unlock(&philo->last_meal_mutex);
+	sem_post(philo->last_meal_sem);
 	return (last_meal);
 }
 
@@ -43,18 +43,18 @@ int	check_n_meals(t_philo *philo, int mode)
 {
 	int	n_meals;
 
-	pthread_mutex_lock(&philo->n_meals_mutex);
+	sem_wait(philo->n_meals_sem);
 	if (mode == WRITE)
 		philo->n_meals++;
 	n_meals = philo->n_meals;
-	pthread_mutex_unlock(&philo->n_meals_mutex);
+	sem_post(philo->n_meals_sem);
 	return (n_meals);
 }
 
 // Function to write logs
 void	write_log(t_philo *philo, int status)
 {
-	pthread_mutex_lock(&philo->rules->log_mutex);
+	sem_wait(philo->rules->log_sem);
 	if (check_run(philo->rules, READ))
 	{
 		if (status == WON)
@@ -77,5 +77,5 @@ void	write_log(t_philo *philo, int status)
 		else if (status == THINK)
 			printf("%lld %d is thinking\n", get_actual_time(), philo->id);
 	}
-	pthread_mutex_unlock(&philo->rules->log_mutex);
+	sem_post(philo->rules->log_sem);
 }
