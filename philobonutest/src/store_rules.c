@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 20:45:44 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/07 21:57:46 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,22 @@ void	store_rules(t_rules *rules, int ac, char **av)
 	long	time_to_sleep;
 	long	nb_must_eat;
 
+    memset(rules, 0, sizeof(t_rules));
 	nb_philo = ft_atoi_long(av[1]);
 	time_to_die = ft_atoi_long(av[2]);
 	time_to_eat = ft_atoi_long(av[3]);
 	time_to_sleep = ft_atoi_long(av[4]);
 	if (ac == 6)
 		nb_must_eat = ft_atoi_long(av[5]);
-	rules->run_sem_init = 0;
-	rules->forks_sem_init = 0;
-	rules->log_sem_init = 0;
 	control_and_store(nb_philo, &rules->nb_philo, rules);
 	control_and_store(time_to_die, &rules->time_to_die, rules);
 	control_and_store(time_to_eat, &rules->time_to_eat, rules);
 	control_and_store(time_to_sleep, &rules->time_to_sleep, rules);
-	rules->run_threads = 1;
 	if (ac == 6)
 		control_and_store(nb_must_eat, &rules->nb_must_eat, rules);
 	else
 		rules->nb_must_eat = -1;
+	rules->stop_thread = 0;
 	create_rules_sem(rules);
 }
 
@@ -53,21 +51,35 @@ void	control_and_store(long n, int *rule, t_rules *rules)
 // Function to create all the semaphores in the rules structure
 void	create_rules_sem(t_rules *rules)
 {
+	sem_unlink("/stop_thread_sem");
+	rules->stop_thread_sem = sem_open("/stop_thread_sem", O_CREAT, 0644, 1);
+	if (rules->stop_thread_sem == SEM_FAILED)
+		error("sem_open failure", rules, NULL);
+	rules->stop_thread_init = 1;
+
 	sem_unlink("/forks_sem");
 	rules->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, (unsigned int) rules->nb_philo);
 	if (rules->forks_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->forks_sem_init = 1;
-	sem_unlink("/run_sem");
-	rules->run_sem = sem_open("/run_sem", O_CREAT, 0644, 1);
-	if (rules->run_sem == SEM_FAILED)
-		error("sem_open failure", rules, NULL);
-	rules->run_sem_init = 1;
+
 	sem_unlink("/log_sem");
 	rules->log_sem = sem_open("/log_sem", O_CREAT, 0644, 1);
 	if (rules->log_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->log_sem_init = 1;
+
+	sem_unlink("/win_sem");
+	rules->win_sem = sem_open("/win_sem", O_CREAT, 0644, 0);
+	if (rules->win_sem == SEM_FAILED)
+		error("sem_open failure", rules, NULL);
+	rules->win_sem_init = 1;
+
+	sem_unlink("/end_sem");
+	rules->end_sem = sem_open("/end_sem", O_CREAT, 0644, 0);
+	if (rules->end_sem == SEM_FAILED)
+		error("sem_open failure", rules, NULL);
+	rules->end_sem_init = 1;
 }
 
 // Function to print the rules

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 09:44:28 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/06 20:29:14 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@
 # define DEAD 4
 # define WON 5
 # define READ 0
-# define CONTINUE 0
 # define STOP 1
 # define WRITE 2
 

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 09:50:35 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/06 19:20:04 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	create_processes(pid_t *pid, t_dclst **agora, t_rules *rules)
 		}
 		if (pid[i] == 0)
 		{
-			philosopher_life((t_philo *) current->data);
+			philosopher_life(current);
 			exit(0);
 		}
 		i++;

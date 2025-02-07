@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 09:44:28 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/07 22:00:08 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // Libraries
 # include <unistd.h>
+# include <string.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <signal.h>
@@ -34,7 +35,6 @@
 # define DEAD 4
 # define WON 5
 # define READ 0
-# define CONTINUE 0
 # define STOP 1
 # define WRITE 2
 
@@ -56,21 +56,23 @@ typedef struct s_rules
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			nb_must_eat;
-	int			run_threads;
-	sem_t		*run_sem;
-	int			run_sem_init;
+	int			stop_thread;
+	sem_t		*stop_thread_sem;
+	int			stop_thread_init;
 	sem_t		*forks_sem;
 	int			forks_sem_init;
 	sem_t		*log_sem;
 	int			log_sem_init;
+	sem_t		*win_sem;
+	int			win_sem_init;
+	sem_t		*end_sem;
+	int			end_sem_init;
 }				t_rules;
 
 typedef struct s_philo
 {
 	int			id;
 	int			n_meals;
-	sem_t		*n_meals_sem;
-	int			n_meals_init;
 	long long	last_meal;
 	sem_t		*last_meal_sem;
 	int			last_meal_init;
@@ -102,22 +104,22 @@ t_philo		*create_philosopher(t_dclst **agora, int id, long long time, \
 /* ************************************************************************** */
 void		launch_simu(t_dclst **agora, t_rules *rules);
 void		create_processes(pid_t *pid, t_dclst **agora, t_rules *rules);
-void		survey_dead(t_dclst **agora, t_rules *rules);
-int			check_victory(t_dclst *current, t_rules *rules);
+void		kill_processes(pid_t *pid, int nb);
+void		write_log(t_philo *philo, int status);
 /* ************************************************************************** */
 /*									philosopher_life.c 						  */
 /* ************************************************************************** */
 void		*philosopher_life(void *arg);
 void		philo_think(t_philo *philo);
-void		philo_eat(t_dclst *node);
+void		philo_eat(t_philo *philo);
 void		philo_sleep(t_philo *philo);
 /* ************************************************************************** */
-/*									mutex_functions.c 						  */
+/*										survey.c 							  */
 /* ************************************************************************** */
-int			check_run(t_rules *rules, int mode);
+void		*survey_win(void *arg);
+void		*survey_dead(void *arg);
 long long	check_last_meal(t_philo *philo, int mode);
-int			check_n_meals(t_philo *philo, int mode);
-void		write_log(t_philo *philo, int status);
+int			check_stop_thread(t_rules *rules, int mode);
 /* ************************************************************************** */
 /*									close_program.c 						  */
 /* ************************************************************************** */
@@ -125,5 +127,6 @@ void		error(char *message, t_rules *rules, t_dclst **agora);
 void		free_and_exit(t_rules *rules, t_dclst **agora, int status);
 void		destroy_rules_sem(t_rules *rules);
 void		destroy_philo_sem(t_dclst **agora);
+void		destroy_sem(sem_t *sem, char *name);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher_life.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 11:33:24 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:25:42 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	*philosopher_life(void *arg)
 	return (NULL);
 }
 
+// Function to handle thinking
 void	philo_think(t_philo *philo)
 {
 	write_log(philo, THINK);
@@ -69,6 +70,7 @@ void	philo_eat(t_dclst *node)
 	pthread_mutex_unlock(philo->right_fork);
 }
 
+// Function to handle sleeping
 void	philo_sleep(t_philo *philo)
 {
 	write_log(philo, SLEEP);

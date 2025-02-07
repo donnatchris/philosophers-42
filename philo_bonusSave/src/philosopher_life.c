@@ -6,27 +6,34 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 10:16:12 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/07 09:15:32 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
 // Function to simulate the life of a philosopher
-void	philosopher_life(t_philo *philo)
+void	*philosopher_life(void *arg)
 {
+	t_dclst	*node;
+	t_philo	*philo;
+
+	node = (t_dclst *)arg;
+	philo = (t_philo *)node->data;
 	if (philo->id % 2 == 0)
 	{
 		philo_think(philo);
 		usleep(500);
 	}
-	while (1)
+	while (check_run(philo->rules, READ))
 	{
-		if (philo_eat(philo) == STOP)
+		philo_eat(node);
+		if (philo->rules->nb_philo == 1)
 			break ;
 		philo_sleep(philo);
 		philo_think(philo);
 	}
+	return (NULL);
 }
 // Function to handle thinking
 void	philo_think(t_philo *philo)
@@ -35,33 +42,35 @@ void	philo_think(t_philo *philo)
 }
 
 // Function to handle eating
-int	philo_eat(t_philo *philo)
+void	philo_eat(t_dclst *node)
 {
-	int	meals;
+	t_philo	*philo;
+	int		meals;
+
+	philo = (t_philo *)node->data;
 	sem_wait(philo->rules->forks_sem);
 	write_log(philo, FORK);
-	if (philo->rules->nb_philo == 1 || check_run(philo->rules, READ) == STOP)
+	if (philo->rules->nb_philo == 1)
 	{
 		sem_post(philo->rules->forks_sem);
-		return (STOP);
+		return ;
 	}
 	sem_wait(philo->rules->forks_sem);
-	if (check_run(philo->rules, READ) == STOP)
-	{
-		sem_post(philo->rules->forks_sem);
-		return (STOP);
-	}
 	write_log(philo, FORK);
 	write_log(philo, EAT);
 	check_last_meal(philo, WRITE);
 	usleep(philo->rules->time_to_eat * 1000);
+
+	check_n_meals(philo, WRITE);
+
 	meals = check_n_meals(philo, WRITE);
-	sem_post(philo->rules->forks_sem);
-	sem_post(philo->rules->forks_sem);
+	(void)meals;
 	if (philo->rules->nb_must_eat != -1)
 		if (meals >= philo->rules->nb_must_eat)
-			return (STOP);
-	return (CONTINUE);
+			if (check_victory(node, philo->rules))
+				write_log(philo, WON);
+	sem_post(philo->rules->forks_sem);
+	sem_post(philo->rules->forks_sem);
 }
 
 // Function to handle sleeping
