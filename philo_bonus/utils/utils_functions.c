@@ -6,11 +6,11 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:55:31 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 14:34:57 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/08 12:38:57 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../include/philo_bonus.h"
 
 // Function to convert a string to a long integer
 long	ft_atoi_long(const char *nptr)

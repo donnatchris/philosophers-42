@@ -6,11 +6,11 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 20:46:41 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/08 12:44:24 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../include/philo_bonus.h"
 
 // Function to print an error message and free the agora list
 void	error(char *message, t_rules *rules, t_dclst **agora)
@@ -32,30 +32,22 @@ void	free_and_exit(t_rules *rules, t_dclst **agora, int status)
 	exit(status);
 }
 
-// Function to destroy the semaphores in the rules structure
+// Function to destroy all semaphores in the rules structure
 void	destroy_rules_sem(t_rules *rules)
 {
 	if (!rules)
 		return ;
 	if (rules->forks_sem_init)
-	{
-		sem_close(rules->forks_sem);
-		sem_unlink("/forks_sem");
-	}
+		destroy_sem(rules->forks_sem, "/forks_sem");
 	if (rules->log_sem_init)
-	{
-		sem_close(rules->log_sem);
-		sem_unlink("/log_sem");
-	}
-	if (rules->run_sem_init)
-	{
-		sem_close(rules->run_sem);
-		sem_unlink("/run_sem");
-	}
-	
+		destroy_sem(rules->log_sem, "/log_sem");
+	if (rules->win_sem_init)
+		destroy_sem(rules->win_sem, "/win_sem");
+	if (rules->end_sem_init)
+		destroy_sem(rules->end_sem, "/end_sem");
 }
 
-// Function to destroy the semaphores in the philosophers structure
+// Function to destroy the semaphores of all the philosophers
 void	destroy_philo_sem(t_dclst **agora)
 {
 	t_dclst	*current;
@@ -68,17 +60,16 @@ void	destroy_philo_sem(t_dclst **agora)
 	{
 		philo = (t_philo *)current->data;
 		if (philo->last_meal_init)
-		{
-			sem_close(philo->last_meal_sem);
-			sem_unlink("/last_meal_sem");
-		}
-		if (philo->n_meals_init)
-		{
-			sem_close(philo->n_meals_sem);
-			sem_unlink("/n_meals_sem");
-		}
+			destroy_sem(philo->last_meal_sem, "/last_meal_sem");
 		current = current->next;
 		if (current == *agora)
 			break ;
 	}
+}
+
+// Function to destroy a semaphore
+void	destroy_sem(sem_t *sem, char *name)
+{
+	sem_close(sem);
+	sem_unlink(name);
 }

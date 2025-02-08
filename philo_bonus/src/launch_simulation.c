@@ -6,35 +6,48 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 09:50:35 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/08 12:54:42 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "../include/philo_bonus.h"
 
 // Function to create the forks, create the threads and run the simulation
 void	launch_simu(t_dclst **agora, t_rules *rules)
 {
-	pid_t	*pid;
-	int		i;
+	pid_t		*philos_pid;
+	pid_t		survey_pid;
 
-	pid = (pid_t *) malloc(sizeof(pid_t) * rules->nb_philo);
-	if (!pid)
+	survey_pid = 0;
+	philos_pid = (pid_t *) malloc(sizeof(pid_t) * rules->nb_philo);
+	if (!philos_pid)
 		error("Malloc failed", rules, agora);
-	create_processes(pid, agora, rules);
-	survey_dead(agora, rules);
-	i = 0;
-	while (i < rules->nb_philo)
-    {
-        waitpid(pid[i], NULL, 0);
-		i++;
-    }
-	free(pid);
+	if (rules->nb_must_eat != -1)
+		create_survey_process(&survey_pid, agora, rules);
+	create_philo_processes(philos_pid, agora, rules, survey_pid);
+	sem_wait(rules->end_sem);
+	kill_processes(philos_pid, rules->nb_philo);
+	if (rules->nb_must_eat != -1)
+		kill(survey_pid, SIGTERM);
+	free(philos_pid);
 	free_and_exit(rules, agora, 0);
 }
 
+// Function to create the survey process
+void	create_survey_process(pid_t *pid, t_dclst **agora, t_rules *rules)
+{
+	*pid = fork();
+	if (*pid < 0)
+		error("fork failed", rules, agora);
+	if (*pid == 0)
+	{
+		survey_win(rules);
+		exit(0);
+	}
+}
+
 // Function to create the processes
-void	create_processes(pid_t *pid, t_dclst **agora, t_rules *rules)
+void	create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, pid_t survey_pid)
 {
 	int		i;
 	t_dclst	*current;
@@ -48,11 +61,13 @@ void	create_processes(pid_t *pid, t_dclst **agora, t_rules *rules)
 		{
 			while (pid[--i])
 				kill(pid[i], SIGTERM);
+			if (survey_pid)
+				kill(survey_pid, SIGTERM);
 			error("fork failed", rules, agora);
 		}
 		if (pid[i] == 0)
 		{
-			philosopher_life((t_philo *) current->data);
+			philosopher_life(current);
 			exit(0);
 		}
 		i++;
@@ -61,61 +76,31 @@ void	create_processes(pid_t *pid, t_dclst **agora, t_rules *rules)
 }
 
 // Function to kill all the child processes
-void	kill_processes(pid_t *pid, t_rules *rules)
+void	kill_processes(pid_t *pid, int nb)
 {
 	int	i;
 
 	i = 0;
-	while (i < rules->nb_philo)
+	while (i < nb)
 	{
 		kill(pid[i], SIGTERM);
 		i++;
 	}
 }
 
-// Function to survey if a philosopher is dead
-void	survey_dead(t_dclst **agora, t_rules *rules)
+// Function to write logs
+void	write_log(t_philo *philo, int status)
 {
-	t_dclst		*current;
-	t_philo		*philo;
-	int			time;
-
-	current = *agora;
-	philo = (t_philo *) current->data;
-	time = philo->rules->time_to_die;
-	while (1)
-	{
-		if (get_elapsed_time(check_last_meal(philo, READ)) > time)
-		{
-			write_log(philo, DEAD);
-			return ;
-		}
-		if (philo->rules->nb_must_eat != -1)
-			if (check_n_meals(philo, READ) >= philo->rules->nb_must_eat)
-				if (check_victory(*agora, rules))
-				{
-					write_log(philo, WON);
-					return ;
-				}
-		current = current->next;
-		philo = (t_philo *) current->data;
-	}
-}
-
-// Function to check if all philosophers have eaten enough
-int	check_victory(t_dclst *current, t_rules *rules)
-{
-	t_philo	*philo;
-	int		i;
-
-	i = 0;
-	while (i < rules->nb_philo)
-	{
-		philo = (t_philo *) current->data;
-		if (check_n_meals(philo, READ) < rules->nb_must_eat)
-			return (0);
-		i++;
-		current = current->next;
-	}
-	return (1);
+	if (status == WON)
+		printf(GREEN "%lld All philosophers have eaten enough" RESET "\n", get_actual_time());
+	else if (status == DEAD)
+		printf(RED "%lld %d died" RESET "\n", get_actual_time(), philo->id);
+	else if (status == FORK)
+		printf(GRAY "%lld %d has taken a fork" RESET "\n", get_actual_time(), philo->id);
+	else if (status == EAT)
+		printf(YELLOW "%lld %d is eating" RESET "\n", get_actual_time(), philo->id);
+	else if (status == SLEEP)
+		printf(BLUE "%lld %d is sleeping" RESET "\n", get_actual_time(), philo->id);
+	else if (status == THINK)
+		printf(CYAN "%lld %d is thinking" RESET "\n", get_actual_time(), philo->id);
 }

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/07 22:00:08 by christophed      ###   ########.fr       */
+/*   Created: 2025/02/08 12:37:31 by christophed       #+#    #+#             */
+/*   Updated: 2025/02/08 12:51:30 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 // Libraries
 # include <unistd.h>
@@ -41,6 +41,8 @@
 # define RESET "\033[0m"
 # define GREEN "\033[1;32m"
 # define RED "\033[1;31m"
+# define GRAY "\033[1;37m"
+# define BROWN "\033[0;33m"
 # define YELLOW "\033[1;33m"
 # define BLUE "\033[1;34m"
 # define MAGENTA "\033[1;35m"
@@ -56,9 +58,6 @@ typedef struct s_rules
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			nb_must_eat;
-	int			stop_thread;
-	sem_t		*stop_thread_sem;
-	int			stop_thread_init;
 	sem_t		*forks_sem;
 	int			forks_sem_init;
 	sem_t		*log_sem;
@@ -103,7 +102,8 @@ t_philo		*create_philosopher(t_dclst **agora, int id, long long time, \
 /*								launch_simulation.c 						  */
 /* ************************************************************************** */
 void		launch_simu(t_dclst **agora, t_rules *rules);
-void		create_processes(pid_t *pid, t_dclst **agora, t_rules *rules);
+void		create_survey_process(pid_t *pid, t_dclst **agora, t_rules *rules);
+void		create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, pid_t survey_pid);
 void		kill_processes(pid_t *pid, int nb);
 void		write_log(t_philo *philo, int status);
 /* ************************************************************************** */
@@ -116,10 +116,9 @@ void		philo_sleep(t_philo *philo);
 /* ************************************************************************** */
 /*										survey.c 							  */
 /* ************************************************************************** */
-void		*survey_win(void *arg);
+void		*survey_win(t_rules *rules);
 void		*survey_dead(void *arg);
 long long	check_last_meal(t_philo *philo, int mode);
-int			check_stop_thread(t_rules *rules, int mode);
 /* ************************************************************************** */
 /*									close_program.c 						  */
 /* ************************************************************************** */

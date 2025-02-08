@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+         #
+#    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/02/06 14:10:26 by chdonnat         ###   ########.fr        #
+#    Updated: 2025/02/08 12:39:41 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC = \
 	$(SRC_DIR)/store_philosophers.c \
 	$(SRC_DIR)/launch_simulation.c \
 	$(SRC_DIR)/philosopher_life.c \
-	$(SRC_DIR)/sem_functions.c \
+	$(SRC_DIR)/survey.c \
 	$(UTILS_DIR)/dclst1.c \
 	$(UTILS_DIR)/utils_functions.c \
 	$(MAIN)
@@ -47,6 +47,8 @@ CC = cc
 all: $(TARGET)
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+
+bonus: all
 
 # Rules to compile the objects files of the bonus part
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
