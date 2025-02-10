@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/10 12:14:53 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:07:45 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	store_rules(t_rules *rules, int ac, char **av)
 		control_and_store(nb_must_eat, &rules->nb_must_eat);
 	else
 		rules->nb_must_eat = -1;
+	init_rules_mutexes(rules);
+}
+
+// Function to initialize the mutexes of the rules structure
+void	init_rules_mutexes(t_rules *rules)
+{
 	if (pthread_mutex_init(&rules->log_mutex, NULL) != 0)
 		error("mutex init failed", rules, NULL);
 	rules->log_mutex_init = 1;
@@ -52,13 +58,6 @@ void	control_and_store(long n, int *rule)
 		error("Invalid input", NULL, NULL);
 	*rule = (int) n;
 }
-
-// Function to control if the input rules are valid
-// void	control_rules(long n)
-// {
-// 	if (!is_positive_int(n))
-// 		error("Invalid input", NULL, NULL);
-// }
 
 // Function to see if the number is a positive integer
 int	is_positive_int(long n)

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 12:37:31 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/08 12:51:30 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:18:28 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ t_philo		*create_philosopher(t_dclst **agora, int id, long long time, \
 /* ************************************************************************** */
 void		launch_simu(t_dclst **agora, t_rules *rules);
 void		create_survey_process(pid_t *pid, t_dclst **agora, t_rules *rules);
-void		create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, pid_t survey_pid);
+void		create_philo_processes(pid_t *pid, t_dclst **agora, \
+			t_rules *rules, pid_t survey_pid);
 void		kill_processes(pid_t *pid, int nb);
 void		write_log(t_philo *philo, int status);
 /* ************************************************************************** */

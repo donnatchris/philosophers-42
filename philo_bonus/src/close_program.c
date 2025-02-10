@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:47:40 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/08 12:44:24 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:20:16 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	error(char *message, t_rules *rules, t_dclst **agora)
 
 // Function to exit the program and free memory
 void	free_and_exit(t_rules *rules, t_dclst **agora, int status)
-{	
+{
 	if (rules)
 		destroy_rules_sem(rules);
 	if (agora)

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/10 11:54:28 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:20:59 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	create_survey_process(pid_t *pid, t_dclst **agora, t_rules *rules)
 }
 
 // Function to create the processes
-void	create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, pid_t survey_pid)
+void	create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, \
+		pid_t survey_pid)
 {
 	int		i;
 	t_dclst	*current;
@@ -95,7 +96,8 @@ void	write_log(t_philo *philo, int status)
 
 	time = get_actual_time();
 	if (status == WON)
-		printf(GREEN "%lld All philosophers have eaten enough" RESET "\n", time);
+		printf(GREEN "%lld All philosophers have eaten enough" \
+		RESET "\n", time);
 	else if (status == DEAD)
 		printf(RED "%lld %d died" RESET "\n", time, philo->id);
 	else if (status == FORK)

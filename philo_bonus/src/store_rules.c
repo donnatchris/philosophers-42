@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/10 11:37:16 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:19:26 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	store_rules(t_rules *rules, int ac, char **av)
 	long	time_to_sleep;
 	long	nb_must_eat;
 
-    memset(rules, 0, sizeof(t_rules));
+	memset(rules, 0, sizeof(t_rules));
 	nb_philo = ft_atoi_long(av[1]);
 	time_to_die = ft_atoi_long(av[2]);
 	time_to_eat = ft_atoi_long(av[3]);
@@ -51,7 +51,8 @@ void	control_and_store(long n, int *rule, t_rules *rules)
 void	create_rules_sem(t_rules *rules)
 {
 	sem_unlink("/forks_sem");
-	rules->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, (unsigned int) rules->nb_philo);
+	rules->forks_sem = sem_open("/forks_sem", O_CREAT, 0644, \
+		(unsigned int) rules->nb_philo);
 	if (rules->forks_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->forks_sem_init = 1;

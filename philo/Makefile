@@ -6,7 +6,7 @@
 #    By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 16:21:20 by christophed       #+#    #+#              #
-#    Updated: 2025/02/04 17:07:18 by christophed      ###   ########.fr        #
+#    Updated: 2025/02/10 13:22:49 by christophed      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ SRC = \
 	$(SRC_DIR)/store_rules.c \
 	$(SRC_DIR)/store_philosophers.c \
 	$(SRC_DIR)/launch_simulation.c \
+	$(SRC_DIR)/survey.c \
 	$(SRC_DIR)/philosopher_life.c \
 	$(SRC_DIR)/mutex_functions.c \
-	$(UTILS_DIR)/dclst1.c \
+	$(UTILS_DIR)/dclst.c \
 	$(UTILS_DIR)/utils_functions.c \
 	$(MAIN)
 

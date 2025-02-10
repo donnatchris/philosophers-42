@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   survey.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/27 14:39:36 by chdonnat          #+#    #+#             */
-/*   Updated: 2025/01/29 10:21:59 by chdonnat         ###   ########.fr       */
+/*   Created: 2025/02/10 12:57:15 by christophed       #+#    #+#             */
+/*   Updated: 2025/02/10 13:16:04 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,22 @@ void	*survey_dead(void *arg)
 {
 	t_dclst		**agora;
 	t_dclst		*current;
+	t_rules		*rules;
 	t_philo		*philo;
 	int			time;
 
 	agora = (t_dclst **) arg;
 	current = *agora;
+	rules = ((t_philo *) current->data)->rules;
 	philo = (t_philo *) current->data;
 	time = philo->rules->time_to_die;
-	while (philo->rules->run_threads)
+	while (check_run(rules, READ))
 	{
-		if (get_elapsed_time(philo->last_meal) > time)
-        {
-			bad_end(philo);
+		if (get_elapsed_time(check_last_meal(philo, READ)) > time)
+		{
+			write_log(philo, DEAD);
 			return (NULL);
-        }
+		}
 		current = current->next;
 		philo = (t_philo *) current->data;
 	}
@@ -40,21 +42,25 @@ void	*survey_dead(void *arg)
 // Function to survey if all philosophers have eaten enough
 void	*survey_win(void *arg)
 {
-	t_dclst		**agora;
+	t_dclst	**agora;
 	t_dclst	*current;
 	t_philo	*philo;
+	t_rules	*rules;
 
 	agora = (t_dclst **) arg;
 	current = *agora;
-    while (((t_philo *) current->data)->rules->run_threads)
+	rules = ((t_philo *) current->data)->rules;
+	while (check_run(rules, READ))
 	{
 		philo = (t_philo *) current->data;
-		if (philo->n_meals >= philo->rules->nb_must_eat)
+		if (check_n_meals(philo, READ) >= philo->rules->nb_must_eat)
+		{
 			if (have_won(current, philo->rules))
 			{
-				happy_end(philo);
+				write_log(philo, WON);
 				return (NULL);
 			}
+		}
 		current = current->next;
 	}
 	return (NULL);
@@ -67,10 +73,10 @@ int	have_won(t_dclst *current, t_rules *rules)
 	int		i;
 
 	i = 0;
-	while(i < rules->nb_philo)
+	while (i < rules->nb_philo)
 	{
 		philo = (t_philo *) current->data;
-		if (philo->n_meals < rules->nb_must_eat)
+		if (check_n_meals(philo, READ) < rules->nb_must_eat)
 			return (0);
 		i++;
 		current = current->next;

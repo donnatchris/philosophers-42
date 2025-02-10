@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 19:25:42 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 12:41:05 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	philo_think(t_philo *philo)
 void	philo_eat(t_dclst *node)
 {
 	t_philo	*philo;
-	int		meals;
 
 	philo = (t_philo *)node->data;
 	pthread_mutex_lock(philo->left_fork);
@@ -61,11 +60,7 @@ void	philo_eat(t_dclst *node)
 	write_log(philo, EAT);
 	check_last_meal(philo, WRITE);
 	usleep(philo->rules->time_to_eat * 1000);
-	meals = check_n_meals(philo, WRITE);
-	if (philo->rules->nb_must_eat != -1)
-		if (meals >= philo->rules->nb_must_eat)
-			if (check_victory(node, philo->rules))
-				write_log(philo, WON);
+	check_n_meals(philo, WRITE);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }

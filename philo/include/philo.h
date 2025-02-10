@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/10 12:22:04 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 13:07:56 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ long long		get_elapsed_time(long long event);
 /*									store_rules.c 						 	  */
 /* ************************************************************************** */
 void			store_rules(t_rules *rules, int ac, char **av);
+void			init_rules_mutexes(t_rules *rules);
 void			control_and_store(long n, int *rule);
-void			control_rules(long n);
 int				is_positive_int(long n);
 void			print_rules(t_rules rules);
 /* ************************************************************************** */
@@ -106,8 +106,13 @@ void			launch_simu(t_dclst **agora, t_rules *rules);
 void			create_threads(t_dclst **agora, t_rules *rules, \
 				pthread_t *threads);
 void			join_threads(pthread_t *threads, int n_threads);
+/* ************************************************************************** */
+/*									survey.c 								  */
+/* ************************************************************************** */
 void			*survey_dead(void *arg);
+void			*survey_win(void *arg);
 int				check_victory(t_dclst *current, t_rules *rules);
+int				have_won(t_dclst *current, t_rules *rules);
 /* ************************************************************************** */
 /*									philosopher_life.c 						  */
 /* ************************************************************************** */
