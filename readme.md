@@ -409,10 +409,15 @@ sem_open() is a function used to create or open named semaphores, which are sema
 Named semaphores are identified by a unique string name and are particularly useful when processes need to synchronize without sharing memory directly.
 
 The sem_open() function accepts the following parameters:
-- const char *name: A string that uniquely identifies the named semaphore. The name must start with a / followed by alphanumeric characters, such as /my_semaphore.
-- int oflag: Specifies the action to perform. O_CREAT creates the semaphore if it does not already exist. O_EXCL causes an error if O_CREAT is used and the semaphore already exists.
-- mode_t mode (optional): Used only if O_CREAT is specified. It defines the access permissions for the semaphore according to standard Unix values (for example, 0666 for read/write permissions for all users).
-- unsigned int value (optional): Used only if O_CREAT is specified. It sets the initial value of the semaphore (the counter for available resources).
+- const char *name: A string that uniquely identifies the named semaphore.
+The name must start with a / followed by alphanumeric characters, such as "/my_semaphore".
+- int oflag: Specifies the action to perform.
+O_CREAT creates the semaphore if it does not already exist.
+O_EXCL causes an error if O_CREAT is used and the semaphore already exists.
+- mode_t mode (optional): Used only if O_CREAT is specified.
+It defines the access permissions for the semaphore according to standard Unix values (for example, 0666 for read/write permissions for all users).
+- unsigned int value (optional): Used only if O_CREAT is specified.
+It sets the initial value of the semaphore (the counter for available resources).
 
 sem_open() returns a pointer to the semaphore object if successful, or SEM_FAILED on error.
 Once finished, it's important to close the semaphore with sem_close() and unlink it with sem_unlink() to release system resources.
