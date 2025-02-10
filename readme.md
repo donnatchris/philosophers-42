@@ -25,9 +25,9 @@ Philosophers should avoid dying. Philosopher number N sits between philosopher n
 
 Specific rules for the mandatory part include that each philosopher should be a thread. There is one fork between each pair of philosophers, meaning that if there are several philosophers, each has a fork on their left and right sides. If there is only one philosopher, there is only one fork on the table. Fork states must be protected with a mutex to prevent duplication.
 
-NOTE THAT THE LIBFT IS FORBIDEN!
+**Note that the libft is forbidden!**
 
-ALSO NOTE THAT philo AND philo_bonuS EACH HAVE THEIR OWN MAKEFILE IN THEIR OWN DIRECTORY
+**Also note that philo and philo_bonus each have their own makefile in their own directory!**
 
 ### BONUS PART:
 
@@ -36,6 +36,14 @@ and must comply with the requirements of the Global rules chapter.
 In the bonus part, all forks are placed in the middle of the table
 They do not have individual states in memory, and the number of available forks is represented by a semaphore.
 Each philosopher should be implemented as a process, but the main process should not act as a philosopher.
+
+### ABOUT MY PROJECT:
+
+For this project, I chose to reuse the doubly circular linked list functions I had created for the push_swap project, but I made them generic functions. These functions use a structure that can be applied to any project, containing only:
+- a pointer to next
+- a pointer to previous
+- a pointer to void *data, allowing it to accept any type of data
+Of course, this isn't the simplest choice (an array of structures would be sufficient), but I wanted to take advantage of this project to refine my doubly circular linked list functions, which I plan to integrate directly into my libft later on.
 
 ## SOME COMMANDS YOU CAN USE:
 
