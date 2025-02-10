@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutex_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:07:17 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/06 14:35:30 by chdonnat         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:52:04 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,27 @@ int	check_n_meals(t_philo *philo, int mode)
 // Function to write logs
 void	write_log(t_philo *philo, int status)
 {
+	long long	time;
+
 	pthread_mutex_lock(&philo->rules->log_mutex);
 	if (check_run(philo->rules, READ))
 	{
+		time = get_actual_time();
+		if (status == WON || status == DEAD)
+			check_run(philo->rules, STOP);
 		if (status == WON)
-		{
-			check_run(philo->rules, STOP);
-			printf("%lld All philosophers have eaten enough\n", \
-				get_actual_time());
-		}
+			printf(GREEN "%lld All philosophers have eaten enough" RESET "\n", \
+			time);
 		else if (status == DEAD)
-		{
-			check_run(philo->rules, STOP);
-			printf("%lld %d died\n", get_actual_time(), philo->id);
-		}
+			printf(RED "%lld %d died" RESET "\n", time, philo->id);
 		else if (status == FORK)
-			printf("%lld %d has taken a fork\n", get_actual_time(), philo->id);
+			printf(GRAY "%lld %d has taken a fork" RESET "\n", time, philo->id);
 		else if (status == EAT)
-			printf("%lld %d is eating\n", get_actual_time(), philo->id);
+			printf(YELLOW "%lld %d is eating" RESET "\n", time, philo->id);
 		else if (status == SLEEP)
-			printf("%lld %d is sleeping\n", get_actual_time(), philo->id);
+			printf(BLUE "%lld %d is sleeping" RESET "\n", time, philo->id);
 		else if (status == THINK)
-			printf("%lld %d is thinking\n", get_actual_time(), philo->id);
+			printf(CYAN "%lld %d is thinking" RESET "\n", time, philo->id);
 	}
 	pthread_mutex_unlock(&philo->rules->log_mutex);
 }

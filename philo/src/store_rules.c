@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 19:26:45 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 12:14:53 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	store_rules(t_rules *rules, int ac, char **av)
 	long	time_to_sleep;
 	long	nb_must_eat;
 
+	memset(rules, 0, sizeof(t_rules));
 	nb_philo = ft_atoi_long(av[1]);
 	time_to_die = ft_atoi_long(av[2]);
 	time_to_eat = ft_atoi_long(av[3]);
@@ -37,25 +38,27 @@ void	store_rules(t_rules *rules, int ac, char **av)
 	else
 		rules->nb_must_eat = -1;
 	if (pthread_mutex_init(&rules->log_mutex, NULL) != 0)
-		error("mutex init failed", NULL);
+		error("mutex init failed", rules, NULL);
+	rules->log_mutex_init = 1;
 	if (pthread_mutex_init(&rules->run_mutex, NULL) != 0)
-		error("mutex init failed", NULL);
+		error("mutex init failed", rules, NULL);
+	rules->run_mutex_init = 1;
 }
 
 // Function to control then store a rule
 void	control_and_store(long n, int *rule)
 {
 	if (!is_positive_int(n))
-		error("Invalid input", NULL);
+		error("Invalid input", NULL, NULL);
 	*rule = (int) n;
 }
 
 // Function to control if the input rules are valid
-void	control_rules(long n)
-{
-	if (!is_positive_int(n))
-		error("Invalid input", NULL);
-}
+// void	control_rules(long n)
+// {
+// 	if (!is_positive_int(n))
+// 		error("Invalid input", NULL, NULL);
+// }
 
 // Function to see if the number is a positive integer
 int	is_positive_int(long n)

@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 22:29:43 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/08 12:54:42 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 11:54:28 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	create_philo_processes(pid_t *pid, t_dclst **agora, t_rules *rules, pid_t s
 	}
 }
 
-// Function to kill all the child processes
+// Function to kill all the philo processes
 void	kill_processes(pid_t *pid, int nb)
 {
 	int	i;
@@ -91,16 +91,19 @@ void	kill_processes(pid_t *pid, int nb)
 // Function to write logs
 void	write_log(t_philo *philo, int status)
 {
+	long long	time;
+
+	time = get_actual_time();
 	if (status == WON)
-		printf(GREEN "%lld All philosophers have eaten enough" RESET "\n", get_actual_time());
+		printf(GREEN "%lld All philosophers have eaten enough" RESET "\n", time);
 	else if (status == DEAD)
-		printf(RED "%lld %d died" RESET "\n", get_actual_time(), philo->id);
+		printf(RED "%lld %d died" RESET "\n", time, philo->id);
 	else if (status == FORK)
-		printf(GRAY "%lld %d has taken a fork" RESET "\n", get_actual_time(), philo->id);
+		printf(GRAY "%lld %d has taken a fork" RESET "\n", time, philo->id);
 	else if (status == EAT)
-		printf(YELLOW "%lld %d is eating" RESET "\n", get_actual_time(), philo->id);
+		printf(YELLOW "%lld %d is eating" RESET "\n", time, philo->id);
 	else if (status == SLEEP)
-		printf(BLUE "%lld %d is sleeping" RESET "\n", get_actual_time(), philo->id);
+		printf(BLUE "%lld %d is sleeping" RESET "\n", time, philo->id);
 	else if (status == THINK)
-		printf(CYAN "%lld %d is thinking" RESET "\n", get_actual_time(), philo->id);
+		printf(CYAN "%lld %d is thinking" RESET "\n", time, philo->id);
 }

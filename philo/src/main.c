@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:55:03 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 17:12:55 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 12:22:26 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	main(int ac, char **av)
 	t_dclst	**agora;
 
 	if (ac != 5 && ac != 6)
-		error("Invalid number of arguments", NULL);
+		error("Invalid number of arguments", NULL, NULL);
 	store_rules(&rules, ac, av);
 	print_rules(rules);
 	agora = malloc(sizeof(t_dclst *));
 	if (!agora)
-		error("malloc failed", NULL);
+		error("malloc failed", &rules, NULL);
 	store_philosophers(agora, rules.nb_philo, &rules);
-	launch_simu(agora, rules);
+	launch_simu(agora, &rules);
 	return (0);
 }

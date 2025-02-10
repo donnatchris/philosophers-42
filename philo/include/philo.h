@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 07:27:01 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/04 19:24:58 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 12:22:04 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // Libraries
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/time.h>
@@ -32,6 +33,16 @@
 # define STOP 1
 # define WRITE 2
 
+# define RESET "\033[0m"
+# define GREEN "\033[1;32m"
+# define RED "\033[1;31m"
+# define GRAY "\033[1;37m"
+# define BROWN "\033[0;33m"
+# define YELLOW "\033[1;33m"
+# define BLUE "\033[1;34m"
+# define MAGENTA "\033[1;35m"
+# define CYAN "\033[1;36m"
+
 // Structures and typedefs
 typedef struct timeval	t_timeval;
 
@@ -44,7 +55,9 @@ typedef struct s_rules
 	int				nb_must_eat;
 	int				run_threads;
 	pthread_mutex_t	run_mutex;
+	int				run_mutex_init;
 	pthread_mutex_t	log_mutex;
+	int				log_mutex_init;
 }					t_rules;
 
 typedef struct s_philo
@@ -89,8 +102,8 @@ void			give_forks(t_dclst *agora, pthread_mutex_t *forks, \
 /* ************************************************************************** */
 /*								launch_simulation.c 						  */
 /* ************************************************************************** */
-void			launch_simu(t_dclst **agora, t_rules rules);
-void			create_threads(t_dclst **agora, t_rules rules, \
+void			launch_simu(t_dclst **agora, t_rules *rules);
+void			create_threads(t_dclst **agora, t_rules *rules, \
 				pthread_t *threads);
 void			join_threads(pthread_t *threads, int n_threads);
 void			*survey_dead(void *arg);
@@ -112,8 +125,8 @@ void			write_log(t_philo *philo, int status);
 /* ************************************************************************** */
 /*									close_program.c 						  */
 /* ************************************************************************** */
-void			error(char *message, t_dclst **agora);
-void			free_and_exit(t_dclst **agora, int status);
+void			error(char *message, t_rules *rules, t_dclst **agora);
+void			free_and_exit(t_rules *rules, t_dclst **agora, int status);
 void			destroy_philo_mutexes(t_dclst **agora);
 void			destroy_forks(pthread_mutex_t *forks, int nb_forks);
 
