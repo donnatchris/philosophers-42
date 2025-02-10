@@ -389,4 +389,30 @@ The function returns the pid of the terminated process if it succeeds.
 If no condition is met and WNOHANG is used, it returns 0.
 In case of an error, it returns -1 and sets errno.
 
+---
 
+### semaphores
+
+Semaphores are synchronization primitives used in concurrent programming to control access to shared resources. They are counters that help manage how many threads or processes can access a critical section at the same time. There are two main types of semaphores: binary semaphores, which act like simple locks allowing only one thread at a time, and counting semaphores, which allow a specified number of threads or processes to access the resource simultaneously.
+
+The basic operations of semaphores are wait (often called P or sem_wait) and signal (also called V or sem_post). The wait operation decrements the semaphore and may block the calling thread if the semaphore value is zero, indicating that the resource is fully occupied. The signal operation increments the semaphore, potentially unblocking a waiting thread. Semaphores are particularly useful for synchronizing processes in multi-threaded or multi-process environments, preventing race conditions and ensuring data integrity.
+
+---
+
+### sem_open()
+
+> #include <semaphore.h>
+
+	sem_t *sem_open(const char *name, int oflag, mode_t mode, unsigned int value);
+
+sem_open() is a function used to create or open named semaphores, which are semaphores accessible across different processes.
+Named semaphores are identified by a unique string name and are particularly useful when processes need to synchronize without sharing memory directly.
+
+The sem_open() function accepts the following parameters:
+- const char *name: A string that uniquely identifies the named semaphore. The name must start with a / followed by alphanumeric characters, such as /my_semaphore.
+- int oflag: Specifies the action to perform. O_CREAT creates the semaphore if it does not already exist. O_EXCL causes an error if O_CREAT is used and the semaphore already exists.
+- mode_t mode (optional): Used only if O_CREAT is specified. It defines the access permissions for the semaphore according to standard Unix values (for example, 0666 for read/write permissions for all users).
+- unsigned int value (optional): Used only if O_CREAT is specified. It sets the initial value of the semaphore (the counter for available resources).
+
+sem_open() returns a pointer to the semaphore object if successful, or SEM_FAILED on error.
+Once finished, it's important to close the semaphore with sem_close() and unlink it with sem_unlink() to release system resources.
