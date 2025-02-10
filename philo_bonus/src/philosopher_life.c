@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 23:25:10 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/08 12:36:51 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/08 13:09:02 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*philosopher_life(void *arg)
 	if (philo->id % 2 == 0)
 	{
 		philo_think(philo);
-		usleep(800);
+		usleep(1000);
 	}
 	while (1)
 	{

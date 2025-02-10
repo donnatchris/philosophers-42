@@ -6,7 +6,7 @@
 /*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 10:45:41 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/08 12:44:49 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/10 11:37:16 by christophed      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,16 @@ void	create_rules_sem(t_rules *rules)
 	if (rules->forks_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->forks_sem_init = 1;
-
 	sem_unlink("/log_sem");
 	rules->log_sem = sem_open("/log_sem", O_CREAT, 0644, 1);
 	if (rules->log_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->log_sem_init = 1;
-
 	sem_unlink("/win_sem");
 	rules->win_sem = sem_open("/win_sem", O_CREAT, 0644, 0);
 	if (rules->win_sem == SEM_FAILED)
 		error("sem_open failure", rules, NULL);
 	rules->win_sem_init = 1;
-
 	sem_unlink("/end_sem");
 	rules->end_sem = sem_open("/end_sem", O_CREAT, 0644, 0);
 	if (rules->end_sem == SEM_FAILED)
