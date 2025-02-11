@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: christophedonnat <christophedonnat@stud    +#+  +:+       +#+        */
+/*   By: chdonnat <chdonnat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 12:37:31 by christophed       #+#    #+#             */
-/*   Updated: 2025/02/10 13:18:28 by christophed      ###   ########.fr       */
+/*   Updated: 2025/02/11 09:43:24 by chdonnat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <sys/time.h>
-# include <sys/stat.h>
-# include <sys/types.h>
 # include "dclst.h"
 
 // Constants
