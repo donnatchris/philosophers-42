@@ -1,6 +1,8 @@
 # PROJECT PHILOSOPHERS FOR 42
 By chdonnat (Christophe Donnat from 42 Perpignan, France)
 
+[🇫🇷 Voir la version française](README.fr.md)  
+
 ## AIM OF THE PROJECT:
 
 The program(s) should take the following arguments:
