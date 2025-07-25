@@ -48,6 +48,7 @@ Of course, this isn't the simplest choice (an array of structures would be suffi
 ## SOME COMMANDS YOU CAN USE:
 
 compile the program and suppress the .o files:
+(you must be in `philosophers/philo/` directory for the mandatory part or `philosophers/philo_bonus` directory for the bonus part)
 
 	make && make clean
 
