@@ -3,6 +3,8 @@ Par chdonnat (Christophe Donnat de 42 Perpignan, France)
 
 [🇬🇧 Go to English version](README.md)
 
+![demo image](images/philo_demo.png)
+
 ## BUT DU PROJET :
 
 Le ou les programmes doivent prendre les arguments suivants :
