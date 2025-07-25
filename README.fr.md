@@ -1,7 +1,7 @@
+##### [🇫🇷 Version française](README.fr.md) / [🇬🇧 English version](README.md)
+
 # PROJET PHILOSOPHERS POUR 42
 Par chdonnat (Christophe Donnat de 42 Perpignan, France)
-
-[🇬🇧 Go to English version](readme.md)
 
 ![demo image](images/philo_demo.png)
 
