@@ -1,7 +1,9 @@
 # PROJECT PHILOSOPHERS FOR 42
 By chdonnat (Christophe Donnat from 42 Perpignan, France)
 
-[🇫🇷 Voir la version française](README.fr.md)  
+[🇫🇷 Voir la version française](README.fr.md)
+
+![demo image](images/philo_demo.png)
 
 ## AIM OF THE PROJECT:
 
