@@ -66,12 +66,12 @@ execute the program (you must pass 4 or 5 arguments)
 	- src/ directory for main files of the project
 	- utils/ directory for secondary files
 	- include/ directory for headers
+	- Makefile
 - philo_bonus/ directory with files for the bonus part
 	- src/ directory for main files of the project
 	- utils/ directory for secondary files
 	- include/ directory for headers
-- test/ directory fot tests files
-- Makefile (with rules: make bonus clean fclean re)
+	- Makefile
 - readme.md for quick explanation and main commands of the project
 
 ## DOCUMENTATION:
